@@ -2,9 +2,24 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class Product:
+CATEGORIES = (
+    (1,"Fruit"),
+    (2, "Vegetable"),
+    (3, "Pasta"),
+    (4, "Sauce"),
+    (5, "Bakery"),
+    (6, "Cheese"),
+    (7, "Meat"),
+    (8, "Sweeteners"),
+    (9, "Dairy"),
+    (10, "Seasoning"),
+    (11, "Other"),
+)
+
+
+class Product(models.Model):
     name = models.CharField(max_length=64, unique=True)
-    category = models.CharField(null=False)
+    category = models.IntegerField(choices=CATEGORIES)
 
 
 class Recipe(models.Model):
@@ -15,8 +30,8 @@ class Recipe(models.Model):
 
 
 class ProductInRecipe(models.Model):
-    product = models.ForeignKey(Product)
-    recipe = models.ForeignKey(Recipe)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     quantity = models.IntegerField()
 
 
