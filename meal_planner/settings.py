@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'planner_app',
 
 ]
 
@@ -78,7 +77,7 @@ WSGI_APPLICATION = 'meal_planner.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'planner_app',
+        'NAME': 'planner_db',
         'USER': 'postgres',
         'PASSWORD': 'coderslab',
         'HOST': 'localhost',
