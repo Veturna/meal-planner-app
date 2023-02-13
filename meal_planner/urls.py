@@ -15,10 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from planner_app.views import Test
+from planner_app.views import MainPage
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('test/', Test.as_view()),
+    path('', MainPage.as_view(), name='main-page'),
 
 ]

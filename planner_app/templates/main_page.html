@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+{% block style %}
+      <link rel="stylesheet" href="{% static 'css/main_page.css' %}"></link>
+{% endblock %}
+{% block content %}
+<div class="name">
+     <h1>Obiadek</h1>
+</div>
+<div class="short-desc">
+    <h2>Twój osobisty planner posiłków</h2>
+</div>
+<div class="welcome">
+    <p>Zakupy spożywcze przestaną być smutnym obowiązkiem, a staną się przyjemnością z naszym prostym plannerem posiłków.
+    </p>
+</div>
+<div class="question1">
+    <h4>Dlaczego powinieneś korzystać z Obiadka?</h4>
+    <p>Odpowiedź 1</p>
+</div>
+<div class="question2">
+    <h4>Co możesz zyskać planując posiłki z wyprzedzeniem?</h4>
+    <p>Odpowiedź 2</p>
+</div>
+<div class="question3">
+    <h4>Jak używać Obiadka?</h4>
+    <p>Odpowiedź 3</p>
+</div>
+{% endblock %}

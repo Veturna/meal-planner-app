@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views import View
 
-class Test(View):
+class MainPage(View):
     def get(self, request):
-        return render(request, 'base.html')
+        return render(request, "main_page.html")
+
