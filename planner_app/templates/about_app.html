@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+{% block style %}
+      <link rel="stylesheet" href="{% static 'css/about_app.css' %}"></link>
+{% endblock %}
+{% block content %}
+<div class="name">
+     <h1>Obiadek</h1>
+</div>
+<div class="short-desc">
+    <h2>Najważniejsze informacje o aplikacji</h2>
+    <p>Informacje</p>
+</div>
+<div class="about">
+    <ol class="list">Wszystkie powody, by zacząć korzystać z Obiadkadka
+        <li>Powód</li>
+        <li>Powód</li>
+        <li>Powód</li>
+        <li>Powód</li>
+        <li>Powód</li>
+    </ol>
+</div>
+{% endblock %}
