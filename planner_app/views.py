@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views import View
 
-from planner_app.models import Recipe
+from planner_app.models import Recipe, ProductInRecipe, Product
 
 
 class MainPage(View):
@@ -15,11 +15,21 @@ class AboutApp(View):
     def get(self, request):
         return render(request, "about_app.html")
 
+
 class RecipesView(View):
     """Widok przepisów"""
     def get(self, request):
         recipes = Recipe.objects.all()
         return render(request, "recipes_view.html", {"recipes":recipes})
+
+
+class RecipeDetail(View):
+    """Szczegóły przepisu"""
+    def get(self, request, id):
+        recipe = Recipe.objects.get(id=id)
+        products = ProductInRecipe.objects.get(recipes=ProductInRecipe.id)
+
+
 
 
 class Login(View):
