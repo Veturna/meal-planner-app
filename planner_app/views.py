@@ -44,3 +44,4 @@ class AddRecipe(View):
 class EditRecipe(View):
     """Edycja przepisu"""
     pass
+

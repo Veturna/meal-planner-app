@@ -13,20 +13,27 @@ CATEGORIES = (
     (8, "Sweeteners"),
     (9, "Dairy"),
     (10, "Seasoning"),
-    (11, "Other"),
+    (11, "Cereals"),
+    (12, "Fish"),
+    (13, "Oil"),
+    (14, "Flour"),
+    (15, "Other"),
 )
 
 
 class Product(models.Model):
     name = models.CharField(max_length=64, unique=True)
     category = models.IntegerField(choices=CATEGORIES)
-
+    def __str__(self):
+        return self.name
 
 class Recipe(models.Model):
     name = models.CharField(max_length=64, unique=True)
     description = models.TextField(null=True)
     products = models.ManyToManyField(Product, through='ProductInRecipe')
     preparation = models.TextField(null=False)
+    def __str__(self):
+        return self.name
 
 
 class ProductInRecipe(models.Model):
@@ -41,6 +48,9 @@ class Plan(models.Model):
     date = models.DateTimeField()
     recipes = models.ManyToManyField(Recipe)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name
+
 
 
 class ShoppingList(models.Model):
@@ -48,4 +58,6 @@ class ShoppingList(models.Model):
     date = models.DateTimeField()
     products = models.ManyToManyField(Product)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name
 

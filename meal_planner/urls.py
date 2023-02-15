@@ -23,3 +23,4 @@ urlpatterns = [
     path('about/', AboutApp.as_view(), name='about-app'),
 
 ]
+
