@@ -20,6 +20,13 @@ CATEGORIES = (
     (15, "Other"),
 )
 
+QUANTITY_CATEGORIES = (
+    (1, "Glass"),
+    (2, "Tea Spoon"),
+    (3, "Table Spoon"),
+    (4, "Piece"),
+)
+
 
 class Product(models.Model):
     name = models.CharField(max_length=64, unique=True)
@@ -40,6 +47,7 @@ class ProductInRecipe(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     quantity = models.IntegerField()
+    quantity_categories = models.IntegerField(choices=QUANTITY_CATEGORIES, default=None)
 
 
 class Plan(models.Model):

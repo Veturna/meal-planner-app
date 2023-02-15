@@ -1,15 +1,26 @@
 from django.shortcuts import render
 from django.views import View
 
+from planner_app.models import Recipe
+
 
 class MainPage(View):
+    """Strona główna aplikacji"""
     def get(self, request):
         return render(request, "main_page.html")
 
 
 class AboutApp(View):
+    """Strona "o aplikacji"""
     def get(self, request):
         return render(request, "about_app.html")
+
+class RecipesView(View):
+    """Widok przepisów"""
+    def get(self, request):
+        recipes = Recipe.objects.all()
+        return render(request, "recipes_view.html", {"recipes":recipes})
+
 
 class Login(View):
     """Widok logowania"""
@@ -31,9 +42,6 @@ class PlansView(View):
     pass
 
 
-class RecipesView(View):
-    """Widok przepisów"""
-    pass
 
 
 class AddRecipe(View):
