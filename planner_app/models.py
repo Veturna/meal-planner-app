@@ -20,6 +20,7 @@ CATEGORIES = (
     (15, "Other"),
 )
 
+
 QUANTITY_CATEGORIES = (
     (1, "Glass"),
     (2, "Tea Spoon"),
@@ -33,6 +34,7 @@ class Product(models.Model):
     category = models.IntegerField(choices=CATEGORIES)
     def __str__(self):
         return self.name
+
 
 class Recipe(models.Model):
     name = models.CharField(max_length=64, unique=True)
@@ -58,7 +60,6 @@ class Plan(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     def __str__(self):
         return self.name
-
 
 
 class ShoppingList(models.Model):

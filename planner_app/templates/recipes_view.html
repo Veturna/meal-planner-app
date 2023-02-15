@@ -10,13 +10,14 @@
   <ul>
     <li>Nazwa: {{recipe.name}}</li>
     <li>Opis: {{recipe.description}}</li>
-    <div class="button">
-      <a href="recipe-detail"><input type="button" name="detail" value="Szczegóły"></a><br>
-</div>
+      <div class="detail-button">
+        <a href="recipe-detail"><input type="button" name="detail" value="Szczegóły"></a><br>
+      </div>
   </ul>
   {% endfor %}
 </div>
+
 <div class="add-recipe">
-  <a href="add-new"><input type="button" name="add" value="Dodaj nowy przepis"></a>
+  <a href="add-new-button"><input type="button" name="add" value="Dodaj nowy przepis"></a>
 </div>
 {% endblock %}

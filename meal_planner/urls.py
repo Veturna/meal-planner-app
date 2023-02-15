@@ -21,7 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', MainPage.as_view(), name='main-page'),
     path('about/', AboutApp.as_view(), name='about-app'),
-    path('recipes/', RecipesView.as_view(), name='recipes')
+    path('recipes/', RecipesView.as_view(), name='recipes'),
 
 ]
 

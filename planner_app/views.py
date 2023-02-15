@@ -30,6 +30,14 @@ class RecipeDetail(View):
         products = ProductInRecipe.objects.get(recipes=ProductInRecipe.id)
 
 
+class AddRecipe(View):
+    """Dodanie przepisu"""
+    pass
+
+
+class EditRecipe(View):
+    """Edycja przepisu"""
+    pass
 
 
 class Login(View):
@@ -54,12 +62,4 @@ class PlansView(View):
 
 
 
-class AddRecipe(View):
-    """Dodanie przepisu"""
-    pass
-
-
-class EditRecipe(View):
-    """Edycja przepisu"""
-    pass
 
