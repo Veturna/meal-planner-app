@@ -8,7 +8,7 @@
 <div class="recipe-products">
   <ul><h3>Składniki:</h3>
   {% for product in products%}
-    <li>{{product.product}} - {{product.quantity}} - {{product.category}}</li>
+    <li>{{product.product}}: {{product.quantity}} {{product.quantity_categories}}</li>
   {% endfor %}
   </ul>
 </div>
