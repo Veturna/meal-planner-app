@@ -6,14 +6,15 @@
 </div>
 
 <div class="edit-recipe-form">
-  <form method="post"></form>
+  <form method="post">
 {% csrf_token %}
   {{ form }}
-<input type="submit" value="Zapisz zmiany">
+<br><br><input type="submit" value="Zapisz zmiany">
 </div>
+</form>
 
 <div class="edited">
-  <h4>Dane po edycj: </h4>
+  <h4>Dane po edycji: </h4>
   <h5>{{name}}</h5>
   <h5>{{description}}</h5>
   <h5>{{preparation}}</h5>
