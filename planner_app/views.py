@@ -27,7 +27,8 @@ class RecipeDetail(View):
     """Szczegóły przepisu"""
     def get(self, request, id):
         recipe = Recipe.objects.get(id=id)
-        products = ProductInRecipe.objects.get(recipes=ProductInRecipe.id)
+        products = ProductInRecipe.objects.filter(recipe=recipe)
+        return render(request, "recipe_details.html", {"recipe":recipe, "products":products})
 
 
 class AddRecipe(View):

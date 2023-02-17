@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="page-name">
+  <h2>Szczegóły przepisu - {{recipe.name}}</h2>
+</div>
+
+<div class="recipe-products">
+  <ul><h3>Składniki:</h3>
+  {% for product in products%}
+    <li>{{product.product}} - {{product.quantity}} - {{product.category}}</li>
+  {% endfor %}
+  </ul>
+</div>
+
+<div class="recipe-preparation">
+    <h3>Przygotowanie: </h3>
+    <p>{{recipe.preparation}}</p>
+</div>
+
+<div class="button">
+    <a href="edit"><input type="button" name="edit" value="Edytuj przepis"></a>
+</div>
+{% endblock %}
