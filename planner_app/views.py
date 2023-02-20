@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 
 from planner_app.models import Recipe, ProductInRecipe, Product
@@ -55,11 +55,7 @@ class EditRecipe(View):
             recipe.preparation = preparation
 
             recipe.save()
-            return render(request, "edit_recipe.html", {"name": name,
-                                                        "description": description,
-                                                        "preparation": preparation,
-                                                         }
-                          )
+            return redirect("/edit/product/<id>")
 
 class EditProductsInRecipe(View):
     """Edycja produktów w przepisie"""

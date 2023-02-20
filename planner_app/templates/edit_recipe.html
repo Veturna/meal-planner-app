@@ -9,15 +9,8 @@
   <form method="post">
 {% csrf_token %}
   {{ form }}
-<br><br><input type="submit" value="Zapisz zmiany">
+    <br><br><input type="submit" value="Zapisz zmiany">
 </form>
 </div>
 
-<div class="edited">
-  <h4>Dane po edycji: </h4>
-  <h5>{{ name }}</h5>
-  <h5>{{ description }}</h5>
-  <h5>{{ preparation }}</h5>
-
-</div>
 {% endblock %}
