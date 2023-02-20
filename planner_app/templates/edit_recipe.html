@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 <div class="edit-recipe">
-  <h2>Edytuj przepis {{recipe.name}}</h2>
+  <h2>Edytuj przepis {{ recipe.name }}</h2>
 </div>
 
 <div class="edit-recipe-form">
@@ -10,13 +10,15 @@
 {% csrf_token %}
   {{ form }}
 <br><br><input type="submit" value="Zapisz zmiany">
-</div>
 </form>
+</div>
 
 <div class="edited">
   <h4>Dane po edycji: </h4>
-  <h5>{{name}}</h5>
-  <h5>{{description}}</h5>
-  <h5>{{preparation}}</h5>
+  <h5>{{ name }}</h5>
+  <h5>{{ description }}</h5>
+  <h5>{{ preparation }}</h5>
+  <h5>{{ products }}</h5>
+
 </div>
 {% endblock %}

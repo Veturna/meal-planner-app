@@ -50,6 +50,7 @@ class EditRecipe(View):
             description = form.cleaned_data["description"]
             preparation = form.cleaned_data["preparation"]
             recipe.name = name
+
             recipe.description = description
             recipe.preparation = preparation
             recipe.save()
