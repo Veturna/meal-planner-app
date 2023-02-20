@@ -13,4 +13,11 @@
 </form>
 </div>
 
+<div class="edited">
+  <h4>Dane po edycji: </h4>
+  <h5>{{ name }}</h5>
+  <h5>{{ description }}</h5>
+  <h5>{{ preparation }}</h5>
+  <a href="/edit/product/{{ recipe.pk }}"><input type="button" value="Edycja produktów"></a>
+</div>
 {% endblock %}

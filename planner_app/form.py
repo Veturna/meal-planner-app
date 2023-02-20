@@ -9,6 +9,6 @@ class EditRecipeForm(forms.Form):
 
 
 class EditProductInRecipeForm(forms.Form):
-    product = forms.CharField(max_length=255)
+    product = forms.CharField(label="Produkt", max_length=255)
     quantity = forms.IntegerField()
     quantity_categories = forms.ChoiceField(choices=QUANTITY_CATEGORIES)

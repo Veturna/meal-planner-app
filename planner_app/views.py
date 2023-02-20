@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 
 from planner_app.models import Recipe, ProductInRecipe, Product
-from planner_app.form import EditRecipeForm
+from planner_app.form import EditRecipeForm, EditProductInRecipeForm
 
 
 class MainPage(View):
@@ -55,19 +55,15 @@ class EditRecipe(View):
             recipe.preparation = preparation
 
             recipe.save()
-            return redirect("/edit/product/<id>")
+            return render(request, "edit_recipe.html")
 
 class EditProductsInRecipe(View):
     """Edycja produktów w przepisie"""
     def get(self, request, id):
         recipe = Recipe.objects.get(id=id)
         products = ProductInRecipe.objects.filter(recipe=recipe)
-        form = EditProductsInRecipe(initial={"product": products.product,
-                                       "quantity": products.quantity,
-                                       "quantity_categories": products.quantity_categories,
-                                       }
-                              )
-        return render(request, 'edit_products.html', {"form": form, "products": products, "recipe": recipe})
+        form = EditProductInRecipeForm()
+        return render(request, 'edit_product.html', {"form": form, "products": products, "recipe": recipe})
     def post(self, request, id):
         pass
 
