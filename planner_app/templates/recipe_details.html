@@ -8,7 +8,7 @@
 <div class="recipe-products">
   <ul><h3>Składniki:</h3>
   {% for product in products%}
-    <li>{{product.product}}: {{product.quantity}} {{product.quantity_categories}}</li>
+    <li>{{product.product}}: {{product.quantity}} {{product.get_quantity_categories_display}}</li>
   {% endfor %}
   </ul>
 </div>
@@ -19,6 +19,6 @@
 </div>
 
 <div class="button">
-    <a href="edit/{{recipe.id}}"><input type="button" name="edit" value="Edytuj przepis"></a>
+    <a href="/edit/{{ recipe.pk }}"><input type="button" name="edit" value="Edytuj przepis"></a>
 </div>
 {% endblock %}
