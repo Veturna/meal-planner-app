@@ -38,10 +38,10 @@ class EditRecipe(View):
         recipe = Recipe.objects.get(id=id)
         form = EditRecipeForm(initial= {"name": recipe.name,
                                         "description": recipe.description,
-                                        "preparation": recipe.preparation
+                                        "preparation": recipe.preparation,
                                         }
                               )
-        return render(request, 'edit_recipe.html', {'form': form, "recipe": recipe})
+        return render(request, 'edit_recipe.html', {'form': form, "recipe": recipe, "products": products})
     def post(self, request, id):
         recipe = Recipe.objects.get(id=id)
         form = EditRecipeForm(request.POST)
@@ -49,14 +49,15 @@ class EditRecipe(View):
             name = form.cleaned_data["name"]
             description = form.cleaned_data["description"]
             preparation = form.cleaned_data["preparation"]
-            recipe.name = name
 
+            recipe.name = name
             recipe.description = description
             recipe.preparation = preparation
+
             recipe.save()
             return render(request, "edit_recipe.html", {"name": name,
-                                                         "description": description,
-                                                         "preparation": preparation
+                                                        "description": description,
+                                                        "preparation": preparation,
                                                          }
                           )
 
