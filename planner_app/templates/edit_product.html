@@ -8,7 +8,9 @@
 <div class="edit-recipe-form">
   <form method="post">
 {% csrf_token %}
-  {{ form }}
+    {% for product in products %}
+  {{ form }}<br><br>
+    {% endfor %}
 <br><br><input type="submit" value="Zapisz zmiany">
 </form>
 </div>

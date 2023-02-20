@@ -62,7 +62,11 @@ class EditProductsInRecipe(View):
     def get(self, request, id):
         recipe = Recipe.objects.get(id=id)
         products = ProductInRecipe.objects.filter(recipe=recipe)
-        form = EditProductInRecipeForm()
+        for product in products:
+            form = EditProductInRecipeForm({"product": product.product,
+                                        "quantity": product.quantity,
+                                        "quantity_categories": product.quantity_categories,
+                                        })
         return render(request, 'edit_product.html', {"form": form, "products": products, "recipe": recipe})
     def post(self, request, id):
         pass
