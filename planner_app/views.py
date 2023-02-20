@@ -41,7 +41,7 @@ class EditRecipe(View):
                                         "preparation": recipe.preparation,
                                         }
                               )
-        return render(request, 'edit_recipe.html', {'form': form, "recipe": recipe, "products": products})
+        return render(request, 'edit_recipe.html', {'form': form, "recipe": recipe})
     def post(self, request, id):
         recipe = Recipe.objects.get(id=id)
         form = EditRecipeForm(request.POST)
@@ -60,6 +60,20 @@ class EditRecipe(View):
                                                         "preparation": preparation,
                                                          }
                           )
+
+class EditProductsInRecipe(View):
+    """Edycja produktów w przepisie"""
+    def get(self, request, id):
+        recipe = Recipe.objects.get(id=id)
+        products = ProductInRecipe.objects.filter(recipe=recipe)
+        form = EditProductsInRecipe(initial={"product": products.product,
+                                       "quantity": products.quantity,
+                                       "quantity_categories": products.quantity_categories,
+                                       }
+                              )
+        return render(request, 'edit_products.html', {"form": form, "products": products, "recipe": recipe})
+    def post(self, request, id):
+        pass
 
 
 class AddRecipe(View):
