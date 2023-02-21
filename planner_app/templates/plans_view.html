@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="page-name">
+  <h2>Lista planów</h2>
+</div>
+
+<div class="all-plan">
+  {% for plan in plans %}
+  <ul>
+    <li>Nazwa: {{ plan.name }}</li>
+    <li>Opis: {{ plan.description }}</li>
+    <li>Data dodania: {{ plan.date }}</li>
+      <div class="detail-button">
+        <a href="/detail/{{ plan.pk }}"><input type="button" name="detail" value="Szczegóły"></a><br>
+      </div>
+  </ul>
+  {% endfor %}
+</div>
+
+<div class="add-plan">
+  <a href="add-new-button"><input type="button" name="add" value="Dodaj nowy plan"></a>
+</div>
+{% endblock %}

@@ -109,8 +109,9 @@ class EditUser(View):
 
 class PlansView(View):
     """Widok planów"""
-    pass
-
+    def get(self, request):
+        plans = Plan.objects.all()
+        return render(request, "plan_view.html", {"plans": plans})
 
 
 
