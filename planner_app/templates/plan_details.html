@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="page-name">
+  <h2>Szczegóły planu - {{ plan.name }}</h2>
+</div>
+
+<div class="plan-recipe">
+  <ul><h3>Przepisy:</h3>
+    {% for recipe in plan.recipes %}
+    <li>{{ recipe.name }}</li>
+  {% endfor %}
+  </ul>
+</div>
+
+{% endblock %}

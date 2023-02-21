@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 
-from planner_app.models import Recipe, ProductInRecipe, Product
+from planner_app.models import Recipe, ProductInRecipe, Product, Plan
 from planner_app.form import EditRecipeForm, EditProductInRecipeForm
 
 
@@ -111,7 +111,15 @@ class PlansView(View):
     """Widok planów"""
     def get(self, request):
         plans = Plan.objects.all()
-        return render(request, "plan_view.html", {"plans": plans})
+        return render(request, "plans_view.html", {"plans": plans})
+
+
+class PlanDetail(View):
+    """Szczegóły planu"""
+    def get(self, request,id):
+        plan = Plan.objects.get(id=id)
+        return render(request, "recipe_details.html", {"plan": plan})
+
 
 
 
