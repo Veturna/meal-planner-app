@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path
-from planner_app.views import MainPage, AboutApp, RecipesView, RecipeDetail, EditRecipe, EditProductsInRecipe, PlansView
+from planner_app.views import MainPage, AboutApp, RecipesView, RecipeDetail, EditRecipe, EditProductsInRecipe, \
+    PlansView, PlanDetail
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,7 +28,7 @@ urlpatterns = [
     re_path(r'^edit/(?P<id>\d+)/$', EditRecipe.as_view(), name='edit-recipe'),
     re_path(r'^edit/product/(?P<id>\d+)/$', EditProductsInRecipe.as_view(), name='edit-product'),
     path('plans/', PlansView.as_view(), name='plans-view'),
-    re_path(r'plan/detail/(?P<id>\d+)/$', )
+    re_path(r'plan/detail/(?P<id>\d+)/$', PlanDetail.as_view(), name='plan-detail'),
 
 ]
 

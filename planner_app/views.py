@@ -118,7 +118,7 @@ class PlanDetail(View):
     """Szczegóły planu"""
     def get(self, request,id):
         plan = Plan.objects.get(id=id)
-        return render(request, "recipe_details.html", {"plan": plan})
+        return render(request, "plan_details.html", {"plan": plan})
 
 
 
