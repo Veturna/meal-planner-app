@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load i18n static %}
 
-
 {% block content %}
 {% if form.errors and not form.non_field_errors %}
 <p class="errornote">
@@ -41,7 +40,7 @@
   {% url 'admin_password_reset' as password_reset_url %}
   {% if password_reset_url %}
   <div class="password-reset-link">
-    <a href="{% url 'accounts:password_reset' as password_reset_url }">{% translate 'Forgotten your password or username?' %}</a>
+    <a href="{% url 'accounts:password_reset' as password_reset_url %}">{% translate 'Forgotten your password or username?' %}</a>
   </div>
   {% endif %}
   <div class="submit-row">
