@@ -1,9 +1,6 @@
 {% extends "base.html" %}
 {% load i18n static %}
 
-{% block extrastyle %}{{ block.super }}<link rel="stylesheet" href="{% static "admin/css/login.css" %}">
-{{ form.media }}
-{% endblock %}
 
 {% block content %}
 {% if form.errors and not form.non_field_errors %}
@@ -31,7 +28,7 @@
 </p>
 {% endif %}
 
-<form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
+<form action="{% url 'accounts:login' %}" method="post" id="login-form">{% csrf_token %}
   <div class="form-row">
     {{ form.username.errors }}
     {{ form.username.label_tag }} {{ form.username }}
@@ -44,7 +41,7 @@
   {% url 'admin_password_reset' as password_reset_url %}
   {% if password_reset_url %}
   <div class="password-reset-link">
-    <a href="{{ password_reset_url }}">{% translate 'Forgotten your password or username?' %}</a>
+    <a href="{% url 'accounts:password_reset' as password_reset_url }">{% translate 'Forgotten your password or username?' %}</a>
   </div>
   {% endif %}
   <div class="submit-row">
