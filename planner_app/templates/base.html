@@ -16,7 +16,12 @@
         <div class="container">
             <a href="/">Strona główna | </a>
             <a href="/about/">O aplikacji | </a>
-            <a href="/accounts/login/">Logowanie | </a>
+            {% if user.is_authenticated %}
+            <a href="/accounts/logout/">Wyloguj | </a>
+            {% else %}
+            <a href="/accounts/login/">Zaloguj | </a>
+            {% endif %}
+
         </div>
     {% endblock %}
     </header>

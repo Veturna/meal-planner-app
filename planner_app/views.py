@@ -1,8 +1,15 @@
 from django.shortcuts import render, redirect
 from django.views import View
+from django.contrib.auth.decorators import login_required
 
 from planner_app.models import Recipe, ProductInRecipe, Product, Plan
 from planner_app.form import EditRecipeForm, EditProductInRecipeForm
+
+
+@login_required()
+def profile(request):
+    """Widok po zalogowaniu"""
+    return render(request, "profile.html")
 
 
 class MainPage(View):
@@ -85,26 +92,6 @@ class EditProductsInRecipe(View):
 
                 product.save()
             return render(request, "edit_product.html")
-
-
-class AddRecipe(View):
-    """Dodanie przepisu"""
-    pass
-
-
-class Login(View):
-    """Widok logowania"""
-    pass
-
-
-class UserView(View):
-    """Widok po zalogowaniu"""
-    pass
-
-
-class EditUser(View):
-    """Edycja użytkownika"""
-    pass
 
 
 class PlansView(View):

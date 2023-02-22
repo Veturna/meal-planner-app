@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Profil {{ request.user.username }}</h2>
+<div>
+  <p>
+    Nazwa użytkownika: {{ request.user.username}} <br>
+    Data dołączenia: {{ request.user.date_joined}} <br>
+    E-mail: {{ request.user.email}} <br>
+    Ostanie logowanie: {{ request.user.last_login}} <br>
+  </p>
+</div>
+
+{% endblock %}
