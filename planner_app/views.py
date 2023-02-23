@@ -3,7 +3,7 @@ from django.views import View
 from django.contrib.auth.decorators import login_required
 
 from planner_app.models import Recipe, ProductInRecipe, Product, Plan
-from planner_app.form import EditRecipeForm, EditProductInRecipeForm
+from planner_app.form import EditRecipeForm, ProductInRecipeFormSet, ProductInRecipeForm
 
 
 @login_required()
@@ -65,33 +65,50 @@ class EditRecipe(View):
             return render(request, "edit_recipe.html")
 
 
+
+
 class EditProductsInRecipe(View):
     """Edycja produktów w przepisie"""
     def get(self, request, id):
         recipe = Recipe.objects.get(id=id)
         products = ProductInRecipe.objects.filter(recipe=recipe)
-        for product in products:
-            form = EditProductInRecipeForm({"product": product.product,
-                                        "quantity": product.quantity,
-                                        "quantity_categories": product.quantity_categories,
-                                        })
-        return render(request, 'edit_product.html', {"form": form, "products": products, "recipe": recipe})
+        formset = ProductInRecipeFormSet(queryset=products)
+        return render(request, 'edit_product.html', {"formset": formset, "recipe": recipe})
     def post(self, request, id):
         recipe = Recipe.objects.get(id=id)
-        products = ProductInRecipe.objects.filter(recipe=recipe)
-        for product in products:
-            form = EditProductInRecipeForm(request.POST)
-            if form.is_valid():
-                products = form.cleaned_data["product"]
-                quantity = form.cleaned_data["quantity"]
-                quantity_categories = form.cleaned_data["quantity_categories"]
+        formset = ProductInRecipeFormSet(request.POST)
+        if formset.is_valid():
+            formset.save()
+            return redirect('recipe-details', id=recipe.id)
+        return render(request, "edit_product.html", {"formset": formset, "recipe": recipe})
 
-                product.product = products
-                product.quantity = quantity
-                product.quantity_categories = quantity_categories
+#class EditProductsInRecipe(View):
+ #   """Edycja produktów w przepisie"""
+  #  def get(self, request, id):
+   #     recipe = Recipe.objects.get(id=id)
+    #    products = ProductInRecipe.objects.filter(recipe=recipe)
+     #   for product in products:
+      #      form = EditProductInRecipeForm({"product": product.product,
+       #                                 "quantity": product.quantity,
+        #                                "quantity_categories": product.quantity_categories,
+         #                               })
+#        return render(request, 'edit_product.html', {"form": form, "products": products, "recipe": recipe})
+ #   def post(self, request, id):
+  #      recipe = Recipe.objects.get(id=id)
+   #     products = ProductInRecipe.objects.filter(recipe=recipe)
+    #    for product in products:
+     #       form = EditProductInRecipeForm(request.POST)
+      #      if form.is_valid():
+       #         products = form.cleaned_data["product"]
+        #        quantity = form.cleaned_data["quantity"]
+         #       quantity_categories = form.cleaned_data["quantity_categories"]
 
-                product.save()
-            return render(request, "edit_product.html")
+          #      product.product = products
+           #     product.quantity = quantity
+            #    product.quantity_categories = quantity_categories
+
+             #   product.save()
+           # return render(request, "edit_product.html")
 
 
 class PlansView(View):
