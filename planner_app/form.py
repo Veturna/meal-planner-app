@@ -15,4 +15,3 @@ class AddRecipe(forms.ModelForm):
     class Meta:
         model = Recipe
         fields = "__all__"
-

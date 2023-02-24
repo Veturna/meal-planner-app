@@ -1,10 +1,9 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from planner_app.models import Recipe, ProductInRecipe, Product, Plan
-from planner_app.form import EditRecipeForm, ProductInRecipeFormSet, ProductInRecipeForm
+from planner_app.models import Recipe, ProductInRecipe, Plan
+from planner_app.form import EditRecipeForm, ProductInRecipeFormSet, AddRecipe
 
 
 class Profile(LoginRequiredMixin, View):
@@ -81,7 +80,9 @@ class EditProductsInRecipe(LoginRequiredMixin, View):
         return render(request, "edit_product.html", {"formset": formset, "recipe": recipe})
 
 class AddRecipe(LoginRequiredMixin, View):
-
+    def get(self, request):
+        form = AddRecipe()
+        return render(request, 'add_recipe.html', {'form': form})
 
 class PlansView(LoginRequiredMixin, View):
     """Widok planów"""
