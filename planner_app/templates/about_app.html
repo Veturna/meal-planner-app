@@ -1,23 +1,22 @@
 {% extends "base.html" %}
 {% load static %}
-{% block style %}
-      <link rel="stylesheet" href="{% static 'css/about_app.css' %}"></link>
-{% endblock %}
 {% block content %}
 <div class="name">
      <h1>Obiadek</h1>
 </div>
 <div class="short-desc">
     <h2>Najważniejsze informacje o aplikacji</h2>
-    <p>Informacje</p>
+    <p><h3>
+    Obiadek to twój osobisty planner, dzięki któremu zaplanujesz posiłki na każdy dzień.<br>
+    Samodzielnie ustawisz plany dopasowane do twoich potrzeb. Zakładamy, że sam najlepiej wiesz co jest dla ciebie najlepsze.
+    </h3></p><br>
 </div>
 <div class="about">
-    <ol class="list">Wszystkie powody, by zacząć korzystać z Obiadkadka
-        <li>Powód</li>
-        <li>Powód</li>
-        <li>Powód</li>
-        <li>Powód</li>
-        <li>Powód</li>
-    </ol>
+    <ol class="list"><h4>Wszystkie powody, by zacząć korzystać z Obiadkadka:</h4>
+        <li>Możesz skorzystać ze sprawdzonych przepisów dostępnych w bazie lub wprowadzić własne. Dajemy ci pewną dowolność.</li>
+        <li>Wygenerujemy za ciebie listę zakupów. Przygotuj plan, a my zajmiemy się resztą.</li>
+        <li>Aplikacja jest łatwa w obsłudze. Prowadzimy cię przez za rękę przez cały proces.</li>
+        <li>Wyznajemy zasadę, że jedzenie powinno być intuicyjne i powinno sprawiać przyjemność.</li>
+</ol>
 </div>
 {% endblock %}
