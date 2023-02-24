@@ -4,9 +4,9 @@
 <div class="page-name">
   <h2>Lista planów: </h2>
 </div>
-{% if user.id == plan.user.id %}
 <div class="all-plan">
   {% for plan in plans %}
+  {% if user.id == plan.user.id %}
   <ol>
     <li>Nazwa: {{ plan.name }}</li>
     <li>Opis: {{ plan.description }}</li>
@@ -15,9 +15,12 @@
         <a href="/plan/detail/{{ plan.pk }}"><input type="button" name="detail" value="Szczegóły"></a><br>
       </div>
   </ol>
+  {% else %}
+  <p> Nie masz jeszcze stworzonych planów </p>
+  {% endif %}
   {% endfor %}
 </div>
-{% endif %}
+
 
 <div class="add-plan">
   <a href="add-new-button"><input type="button" name="add" value="Dodaj nowy plan"></a>
