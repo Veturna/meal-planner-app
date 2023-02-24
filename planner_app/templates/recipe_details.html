@@ -18,7 +18,9 @@
     <p>{{ recipe.preparation }}</p>
 </div>
 
+{% if user.is_authenticated %}}
 <div class="button">
     <a href="/edit/{{ recipe.pk }}"><input type="button" name="edit" value="Edytuj przepis"></a>
 </div>
+{% endif %}
 {% endblock %}
