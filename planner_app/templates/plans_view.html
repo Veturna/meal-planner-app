@@ -4,7 +4,7 @@
 <div class="page-name">
   <h2>Lista planów: </h2>
 </div>
-
+{% if user.id == plan.user.id %}
 <div class="all-plan">
   {% for plan in plans %}
   <ol>
@@ -17,6 +17,7 @@
   </ol>
   {% endfor %}
 </div>
+{% endif %}
 
 <div class="add-plan">
   <a href="add-new-button"><input type="button" name="add" value="Dodaj nowy plan"></a>
