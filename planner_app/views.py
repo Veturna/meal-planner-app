@@ -80,6 +80,8 @@ class EditProductsInRecipe(LoginRequiredMixin, View):
             return redirect('recipe-details', id=recipe.id)
         return render(request, "edit_product.html", {"formset": formset, "recipe": recipe})
 
+class AddRecipe(LoginRequiredMixin, View):
+
 
 class PlansView(LoginRequiredMixin, View):
     """Widok planów"""
