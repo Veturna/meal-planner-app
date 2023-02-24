@@ -3,7 +3,7 @@ from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from planner_app.models import Recipe, ProductInRecipe, Plan
-from planner_app.form import EditRecipeForm, ProductInRecipeFormSet, AddRecipe
+from planner_app.form import EditRecipeForm, ProductInRecipeFormSet, AddRecipeForm
 
 
 class Profile(LoginRequiredMixin, View):
@@ -81,7 +81,7 @@ class EditProductsInRecipe(LoginRequiredMixin, View):
 
 class AddRecipe(LoginRequiredMixin, View):
     def get(self, request):
-        form = AddRecipe()
+        form = AddRecipeForm()
         return render(request, 'add_recipe.html', {'form': form})
 
 class PlansView(LoginRequiredMixin, View):
