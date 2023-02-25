@@ -29,9 +29,9 @@ urlpatterns = [
     re_path(r'^edit/(?P<id>\d+)/$', EditRecipe.as_view(), name='edit-recipe'),
     re_path(r'^edit/product/(?P<id>\d+)/$', EditProductsInRecipe.as_view(), name='edit-product'),
     path('plans/', PlansView.as_view(), name='plans-view'),
-    re_path(r'plan/detail/(?P<id>\d+)/$', PlanDetail.as_view(), name='plan-detail'),
+    re_path(r'^plan/detail/(?P<id>\d+)/$', PlanDetail.as_view(), name='plan-detail'),
     path('add/recipe/', AddRecipe.as_view(), name='add-recipe'),
-    re_path(r'^shopping-list/(?P<id>\d+)/$', GenerateShoppingList.as_view(), name='shopping-list'),
+    re_path(r'^shopping-list/(?P<plan_pk>\d+)/$', GenerateShoppingList.as_view(), name='shopping-list'),
 
 ]
 

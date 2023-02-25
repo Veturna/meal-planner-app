@@ -2,10 +2,11 @@
 {% load static %}
 {% block content %}
 
-<ul><h2>Lista zakupów dla planu {{plan.name}}: </h2>
-  {% for product in shopping_list %}
-    <li>{{product}}</li>
-  {% endfor %}}
+<h2>Lista zakupów dla planu {{plan.name}}: </h2>
+<ul>
+  {% for item in shopping_list %}
+    <li>{{item.0.name}}: {{item.1}} {{item.2}}</li>
+  {% endfor %}
 </ul>
 
 {% endblock %}

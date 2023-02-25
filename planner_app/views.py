@@ -111,7 +111,7 @@ class PlansView(LoginRequiredMixin, View):
 
 class PlanDetail(LoginRequiredMixin, View):
     """Szczegóły planu"""
-    def get(self, request,id):
+    def get(self, request, id):
         plan = Plan.objects.get(id=id)
         return render(request, "plan_details.html", {"plan": plan})
 
@@ -126,14 +126,15 @@ class AddPlan(LoginRequiredMixin, View):
 
 class GenerateShoppingList(LoginRequiredMixin, View):
     """Generowanie listy zakupów"""
-    def get(self, request, plan_id):
-        plan = Plan.objects.get(id=plan_id)
+    def get(self, request, plan_pk):
+        plan = Plan.objects.get(pk=plan_pk)
         shopping_list = []
 
         for recipe in plan.recipes.all():
-            for product in recipe.products.all():
-                for product_in_recipe in product.product.all():
-                    if product_in_recipe.name not in shopping_list:
-                        shopping_list.append((product_in_recipe.product, product_in_recipe.quantity, product_in_recipe.quantity_categories))
+            for product_in_recipe in recipe.products.all():
+                products = product_in_recipe.product
+                quantity = product_in_recipe.quantity
+                quantity_categories = product_in_recipe.quantity_categories
 
+                shopping_list.append((products, quantity, quantity_categories))
         return render(request, "shopping_list.html", {"shopping_list": shopping_list})
