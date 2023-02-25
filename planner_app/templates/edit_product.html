@@ -6,7 +6,7 @@
 </div>
 
 <div class="edit-recipe-form">
-  <form method="post">
+  <form method="post" action="{% url 'recipe-details' id=recipe.id %}">
     {% csrf_token %}
     {{ formset.management_form }}
     {% for form in formset %}

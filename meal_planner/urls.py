@@ -19,19 +19,19 @@ from planner_app.views import MainPage, AboutApp, RecipesView, RecipeDetail, Edi
     PlansView, PlanDetail, Profile, AddRecipe, GenerateShoppingList
 
 urlpatterns = [
-    path('accounts/', include(('django.contrib.auth.urls', 'auth'), namespace='accounts')),
-    path('accounts/profile/', Profile.as_view(), name='profile'),
+    path('accounts/', include(('django.contrib.auth.urls', 'auth'))),
+    path('accounts/profile/', Profile.as_view()),
     path('admin/', admin.site.urls),
-    path('', MainPage.as_view(), name='main-page'),
-    path('about/', AboutApp.as_view(), name='about-app'),
-    path('recipes/', RecipesView.as_view(), name='recipes'),
+    path('', MainPage.as_view()),
+    path('about/', AboutApp.as_view()),
+    path('recipes/', RecipesView.as_view()),
     re_path(r'^detail/(?P<id>\d+)/$', RecipeDetail.as_view(), name='recipe-detail'),
-    re_path(r'^edit/(?P<id>\d+)/$', EditRecipe.as_view(), name='edit-recipe'),
-    re_path(r'^edit/product/(?P<id>\d+)/$', EditProductsInRecipe.as_view(), name='edit-product'),
-    path('plans/', PlansView.as_view(), name='plans-view'),
-    re_path(r'^plan/detail/(?P<id>\d+)/$', PlanDetail.as_view(), name='plan-detail'),
-    path('add/recipe/', AddRecipe.as_view(), name='add-recipe'),
-    re_path(r'^shopping-list/(?P<plan_pk>\d+)/$', GenerateShoppingList.as_view(), name='shopping-list'),
+    re_path(r'^edit/(?P<id>\d+)/$', EditRecipe.as_view()),
+    re_path(r'^edit/product/(?P<id>\d+)/$', EditProductsInRecipe.as_view()),
+    path('plans/', PlansView.as_view()),
+    re_path(r'^plan/detail/(?P<id>\d+)/$', PlanDetail.as_view()),
+    path('add/recipe/', AddRecipe.as_view()),
+    re_path(r'^shopping-list/(?P<plan_pk>\d+)/$', GenerateShoppingList.as_view()),
 
 ]
 

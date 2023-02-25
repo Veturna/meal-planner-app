@@ -77,7 +77,7 @@ class EditProductsInRecipe(LoginRequiredMixin, View):
         formset = ProductInRecipeFormSet(request.POST)
         if formset.is_valid():
             formset.save()
-            return redirect('recipe-details', id=recipe.id)
+            return redirect('recipe-detail', id=recipe.id)
         return render(request, "edit_product.html", {"formset": formset, "recipe": recipe})
 
 
