@@ -131,10 +131,12 @@ class GenerateShoppingList(LoginRequiredMixin, View):
         shopping_list = []
 
         for recipe in plan.recipes.all():
-            for product_in_recipe in recipe.products.all():
-                products = product_in_recipe.product
+            for product_in_recipe in recipe.productinrecipe_set.all():
+                product = product_in_recipe.product
                 quantity = product_in_recipe.quantity
                 quantity_categories = product_in_recipe.quantity_categories
+                product_name = product.name
 
-                shopping_list.append((products, quantity, quantity_categories))
+                shopping_list.append((product_name, quantity, quantity_categories))
+
         return render(request, "shopping_list.html", {"shopping_list": shopping_list})
