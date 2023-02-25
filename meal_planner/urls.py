@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path, include
 from planner_app.views import MainPage, AboutApp, RecipesView, RecipeDetail, EditRecipe, EditProductsInRecipe, \
-    PlansView, PlanDetail, Profile, AddRecipe
+    PlansView, PlanDetail, Profile, AddRecipe, GenerateShoppingList
 
 urlpatterns = [
     path('accounts/', include(('django.contrib.auth.urls', 'auth'), namespace='accounts')),
@@ -31,6 +31,7 @@ urlpatterns = [
     path('plans/', PlansView.as_view(), name='plans-view'),
     re_path(r'plan/detail/(?P<id>\d+)/$', PlanDetail.as_view(), name='plan-detail'),
     path('add/recipe/', AddRecipe.as_view(), name='add-recipe'),
+    re_path(r'^shopping-list/(?P<id>\d+)/$', GenerateShoppingList.as_view(), name='shopping-list'),
 
 ]
 

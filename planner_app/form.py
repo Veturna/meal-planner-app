@@ -1,5 +1,5 @@
 from django import forms
-from planner_app.models import QUANTITY_CATEGORIES, ProductInRecipe, Recipe
+from planner_app.models import ProductInRecipe, Recipe
 from django.forms import modelform_factory, modelformset_factory
 
 class EditRecipeForm(forms.Form):

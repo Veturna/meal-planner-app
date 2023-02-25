@@ -3,7 +3,7 @@ from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from planner_app.models import Recipe, ProductInRecipe, Plan
-from planner_app.form import EditRecipeForm, ProductInRecipeFormSet, AddRecipeForm
+from planner_app.form import EditRecipeForm, ProductInRecipeFormSet, AddRecipeForm, ProductInRecipeForm
 
 
 class Profile(LoginRequiredMixin, View):
@@ -85,7 +85,8 @@ class AddRecipe(LoginRequiredMixin, View):
     """Dodawanie planów"""
     def get(self, request):
         form = AddRecipeForm()
-        return render(request, 'add_recipe.html', {'form': form})
+        formset = ProductInRecipeForm()
+        return render(request, 'add_recipe.html', {'form': form, "formset": formset})
     def post(self, request):
         form = AddRecipeForm(request.POST)
         if form.is_valid():
@@ -93,9 +94,7 @@ class AddRecipe(LoginRequiredMixin, View):
             description = form.cleaned_data["description"]
             preparation = form.cleaned_data["preparation"]
             products = form.cleaned_data["products"]
-            new_recipe = Recipe.objects.create(name=name, description=description, preparation=preparation)
-            new_recipe.save()
-            new_recipe.products.set(products)
+            new_recipe = Recipe.objects.create(name=name, description=description, preparation=preparation, products=products)
             new_recipe.save()
             result = "Przepis został utworzony."
             return render(request, "add_recipe.html", {"form": form, "result": result})
@@ -127,6 +126,14 @@ class AddPlan(LoginRequiredMixin, View):
 
 class GenerateShoppingList(LoginRequiredMixin, View):
     """Generowanie listy zakupów"""
-    def get(self, request):
-        pass
+    def get(self, request, plan_id):
+        plan = Plan.objects.get(id=plan_id)
+        shopping_list = []
 
+        for recipe in plan.recipes.all():
+            for product in recipe.products.all():
+                for product_in_recipe in product.product.all():
+                    if product_in_recipe.name not in shopping_list:
+                        shopping_list.append((product_in_recipe.product, product_in_recipe.quantity, product_in_recipe.quantity_categories))
+
+        return render(request, "shopping_list.html", {"shopping_list": shopping_list})

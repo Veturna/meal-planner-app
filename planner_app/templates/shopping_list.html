@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<ul><h2>Lista zakupów dla planu {{plan.name}}: </h2>
+  {% for product in shopping_list %}
+    <li>{{product}}</li>
+  {% endfor %}}
+</ul>
+
+{% endblock %}
