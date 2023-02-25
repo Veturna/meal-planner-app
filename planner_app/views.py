@@ -1,9 +1,16 @@
+import io
+
 from django.shortcuts import render, redirect
 from django.views import View
+from django.template.loader import get_template
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import FileResponse
+
+from weasyprint import HTML
 
 from planner_app.models import Recipe, ProductInRecipe, Plan
 from planner_app.form import EditRecipeForm, ProductInRecipeFormSet, AddRecipeForm, ProductInRecipeForm
+
 
 
 class Profile(LoginRequiredMixin, View):
@@ -140,3 +147,18 @@ class GenerateShoppingList(LoginRequiredMixin, View):
                 shopping_list.append((product_name, quantity, quantity_categories))
 
         return render(request, "shopping_list.html", {"shopping_list": shopping_list})
+
+
+class GeneratePDF(LoginRequiredMixin, View):
+    """Generowanie PDF na podstawie listy zakupów"""
+    def generate_pdf(self, request):
+        data = GenerateShoppingList()
+
+        template = get_template('shopping_list.html')
+        html = template.render(data)
+
+        pdf_file = io.BytesIO()
+        HTML(string=html).write_pdf(pdf_file)
+
+        response = FileResponse(pdf_file, as_attachnment=False, filename = "lista-zakupow.pdf")
+        return response
