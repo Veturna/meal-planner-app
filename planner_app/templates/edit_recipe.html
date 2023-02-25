@@ -8,7 +8,7 @@
 <div class="edit-recipe-form">
   <form method="post">
 {% csrf_token %}
-  {{ form }}
+  {{ form.as_p }}
     <br><br><input type="submit" value="Zapisz zmiany">
 </form>
 </div>

@@ -7,7 +7,9 @@
 
 <div class="plan-recipe">
   <ul><h3>Przepisy:</h3>
-    <li>{{ plan.recipes.name }}</li>
+      {% for recipe in plan.recipes.all %}
+    <li>{{ recipe.name }}</li>
+      {% endfor %}
   </ul>
 </div>
 

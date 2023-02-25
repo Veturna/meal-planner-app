@@ -7,6 +7,7 @@ from planner_app.form import EditRecipeForm, ProductInRecipeFormSet, AddRecipeFo
 
 
 class Profile(LoginRequiredMixin, View):
+    """Widok profilu użytkownika"""
     def get(self, request):
         return render(request, "profile.html")
 
@@ -79,10 +80,28 @@ class EditProductsInRecipe(LoginRequiredMixin, View):
             return redirect('recipe-details', id=recipe.id)
         return render(request, "edit_product.html", {"formset": formset, "recipe": recipe})
 
+
 class AddRecipe(LoginRequiredMixin, View):
+    """Dodawanie planów"""
     def get(self, request):
         form = AddRecipeForm()
         return render(request, 'add_recipe.html', {'form': form})
+    def post(self, request):
+        form = AddRecipeForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            description = form.cleaned_data["description"]
+            preparation = form.cleaned_data["preparation"]
+            products = form.cleaned_data["products"]
+            new_recipe = Recipe.objects.create(name=name, description=description, preparation=preparation)
+            new_recipe.save()
+            new_recipe.products.set(products)
+            new_recipe.save()
+            result = "Przepis został utworzony."
+            return render(request, "add_recipe.html", {"form": form, "result": result})
+        else:
+            return render(request, "add_recipe.html", {"form": form})
+
 
 class PlansView(LoginRequiredMixin, View):
     """Widok planów"""
@@ -98,6 +117,16 @@ class PlanDetail(LoginRequiredMixin, View):
         return render(request, "plan_details.html", {"plan": plan})
 
 
+class AddPlan(LoginRequiredMixin, View):
+    """Dodawanie planów"""
+    def get(self, request):
+        pass
+    def post(self, request):
+        pass
 
 
+class GenerateShoppingList(LoginRequiredMixin, View):
+    """Generowanie listy zakupów"""
+    def get(self, request):
+        pass
 

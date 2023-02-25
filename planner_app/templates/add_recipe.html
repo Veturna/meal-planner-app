@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-{{ form.as_p }}
-<div class="button">
-  <input type="button" value="Dodaj przepis"></a>
-</div>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Dodaj przepis">
+</form>
+
+<h3>{{result}}</h3>
+
 {% endblock %}
