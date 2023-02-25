@@ -146,16 +146,23 @@ class GenerateShoppingList(LoginRequiredMixin, View):
 
                 shopping_list.append((product_name, quantity, quantity_categories))
 
-        return render(request, "shopping_list.html", {"shopping_list": shopping_list})
+        return render(request, "shopping_list.html", {"shopping_list": shopping_list, "plan": plan})
 
+    def generatePDF(self, request, plan_pk):
+        plan = Plan.objects.get(pk=plan_pk)
+        shopping_list = []
 
-class GeneratePDF(LoginRequiredMixin, View):
-    """Generowanie PDF na podstawie listy zakupów"""
-    def generate_pdf(self, request):
-        data = GenerateShoppingList()
+        for recipe in plan.recipes.all():
+            for product_in_recipe in recipe.productinrecipe_set.all():
+                product = product_in_recipe.product
+                quantity = product_in_recipe.quantity
+                quantity_categories = product_in_recipe.quantity_categories
+                product_name = product.name
+
+                shopping_list.append((product_name, quantity, quantity_categories))
 
         template = get_template('shopping_list.html')
-        html = template.render(data)
+        html = template.render({"shopping_list": shopping_list, "plan": plan})
 
         pdf_file = io.BytesIO()
         HTML(string=html).write_pdf(pdf_file)

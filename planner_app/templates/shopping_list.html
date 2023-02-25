@@ -2,12 +2,12 @@
 {% load static %}
 {% block content %}
 
-<h2>Lista zakupów dla planu {{plan.name}}: </h2>
+<h2>Lista zakupów dla planu: {{plan.name}}: </h2>
 <ul>
   {% for item in shopping_list %}
     <li>{{item.0}}: {{item.1}} {{item.2.get_quantity_categories_display}}</li>
   {% endfor %}
 </ul>
 
-<a href="/generate-pdf/"><input type="button" value="" </a>
+<a href="{% url 'generate-shopping-list-pdf' plan.pk %}"><input type="button" value="Eksportuj PDF"></a>
 {% endblock %}
