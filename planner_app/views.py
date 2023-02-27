@@ -9,7 +9,7 @@ from django.http import FileResponse
 from weasyprint import HTML
 
 from planner_app.models import Recipe, ProductInRecipe, Plan
-from planner_app.form import EditRecipeForm, ProductInRecipeFormSet, AddRecipeForm, ProductInRecipeForm
+from planner_app.form import EditRecipeForm, ProductInRecipeFormSet, AddRecipeForm, ProductInRecipeForm, AddPlanForm
 
 
 
@@ -106,7 +106,8 @@ class PlanDetail(LoginRequiredMixin, View):
 class AddPlan(LoginRequiredMixin, View):
     """Dodawanie planów"""
     def get(self, request):
-        pass
+        form = AddPlanForm()
+        return render(request, 'add_plan.html', {'form': form})
     def post(self, request):
         pass
 
