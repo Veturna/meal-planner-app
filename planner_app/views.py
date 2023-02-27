@@ -96,14 +96,14 @@ class PlansView(LoginRequiredMixin, View):
         return render(request, "plans_view.html", {"plans": plans})
 
 
-class PlanDetail(LoginRequiredMixin, View):
+class PlanDetail(View):
     """Szczegóły planu"""
     def get(self, request, id):
         plan = Plan.objects.get(id=id)
         return render(request, "plan_details.html", {"plan": plan})
 
 
-class AddPlan(LoginRequiredMixin, View):
+class AddPlan(View):
     """Dodawanie planów"""
     def get(self, request):
         form = AddPlanForm()
@@ -120,6 +120,10 @@ class AddPlan(LoginRequiredMixin, View):
             result = "Wystąpił błąd"
             return render(request, "add_plan.html", {"form": form, "result": result})
 
+
+class DeletePlan(View):
+    def get(self, request, id):
+        pass
 
 class GenerateShoppingList(LoginRequiredMixin, View):
     """Generowanie listy zakupów"""

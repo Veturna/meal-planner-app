@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 <div class="page-name">
-  <h2>Lista planów: </h2>
+  <h1>Lista utworzonych planów: </h1>
 </div>
 <div class="all-plan">
   {% for plan in plans %}
@@ -20,7 +20,6 @@
   {% endif %}
   {% endfor %}
 </div>
-
 
 <div class="add-plan">
   <a href="/add/plan/"><input type="button" name="add" value="Dodaj nowy plan"></a>

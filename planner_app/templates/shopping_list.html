@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 
-<h2>Lista zakupów dla planu: {{plan.name}}: </h2>
+<h2>Lista zakupów na bazie planu | {{plan.name}}: </h2>
 <ul>
   {% for item in shopping_list %}
     <li>{{item.0}}: {{item.1}} {{item.2.get_quantity_categories_display}}</li>

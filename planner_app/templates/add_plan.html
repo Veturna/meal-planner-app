@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+<h1>Dodaj nowy plan</h1>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Dodaj plan">
+    <input type="submit" value="Zapisz dane">
 </form>
 
 <h3>{{result}}</h3>

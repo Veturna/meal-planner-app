@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 <div class="page-name">
-  <h2>Szczegóły planu - {{ plan.name }}</h2>
+  <h1>Szczegóły planu | {{ plan.name }}</h1>
 </div>
 
 <div class="plan-recipe">
@@ -14,6 +14,9 @@
 </div>
 <div>
   <a href="/shopping-list/{{ plan.pk }}/"><input type="button" value="Wygeneruj listę zakupów"></a>
+</div>
+<div>
+  <a href="/delete/plan/"><input type="button" value="Usuń plan"></a>
 </div>
 
 {% endblock %}

@@ -2,18 +2,17 @@
 {% load static %}
 {% block content %}
 <div class="page-name">
-  <h2>Lista przepisów</h2>
+  <h1>Lista przepisów</h1>
 </div>
 
 <div class="all-recipes">
   {% for recipe in recipes %}
-  <ul>
+
     <li>Nazwa: {{recipe.name}}</li>
     <li>Opis: {{recipe.description}}</li>
       <div class="detail-button">
-        <a href="/detail/{{ recipe.pk }}"><input type="button" name="detail" value="Szczegóły"></a><br>
+        <a href="/detail/{{ recipe.pk }}"><input type="submit" name="detail" value="Szczegóły"></a><br><br>
       </div>
-  </ul>
   {% endfor %}
 </div>
 

@@ -2,15 +2,14 @@
 {% load static %}
 {% block content %}
 <div class="page-name">
-  <h2>Szczegóły przepisu - {{ recipe.name }}</h2>
+  <h1>Szczegóły przepisu | {{ recipe.name }}</h1>
 </div>
 
 <div class="recipe-products">
-  <ul><h3>Składniki:</h3>
+  <h3>Składniki:</h3>
   {% for product in products%}
     <li>{{ product.product }}: {{ product.quantity }} {{ product.get_quantity_categories_display }}</li>
   {% endfor %}
-  </ul>
 </div>
 
 <div class="recipe-preparation">

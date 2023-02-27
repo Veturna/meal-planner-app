@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 <div class="edit-recipe">
-  <h2>Edytuj przepis {{ recipe.name }}</h2>
+  <h1>Edytuj przepis | {{ recipe.name }}</h1>
 </div>
 
 <div class="edit-recipe-form">
@@ -13,7 +13,7 @@
 </form>
 </div>
 <div class="">
-  <a href="/edit/product/{{ recipe.pk }}"><input type="button" value="Edycja produktów w przepisie"></a>
+  <a href="/edit/product/{{ recipe.pk }}"><input type="button" value="Edytuj produkty"></a>
 </div>
 <div>
   <h1>{{ result }}</h1>
