@@ -122,8 +122,10 @@ class AddPlan(View):
 
 
 class DeletePlan(View):
-    def get(self, request, id):
-        pass
+    def get(self, request, plan_pk):
+        plan = Plan.objects.get(pk=plan_pk)
+        plan.delete()
+        return redirect("plans")
 
 class GenerateShoppingList(LoginRequiredMixin, View):
     """Generowanie listy zakupów"""

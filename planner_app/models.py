@@ -57,7 +57,7 @@ class Plan(models.Model):
     description = models.TextField(null=True)
     date = models.DateTimeField(null = True)
     recipes = models.ManyToManyField(Recipe)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     def __str__(self):
         return self.name
 
@@ -66,7 +66,7 @@ class ShoppingList(models.Model):
     name = models.CharField(max_length=64, unique=True)
     date = models.DateTimeField()
     products = models.ManyToManyField(Product)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     def __str__(self):
         return self.name
 
