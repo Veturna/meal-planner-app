@@ -1,4 +1,5 @@
 import io
+import datetime
 
 from django.shortcuts import render, redirect
 from django.views import View
@@ -10,7 +11,6 @@ from weasyprint import HTML
 
 from planner_app.models import Recipe, ProductInRecipe, Plan
 from planner_app.form import EditRecipeForm, ProductInRecipeFormSet, AddRecipeForm, ProductInRecipeForm, AddPlanForm
-
 
 
 class Profile(LoginRequiredMixin, View):
@@ -109,7 +109,16 @@ class AddPlan(LoginRequiredMixin, View):
         form = AddPlanForm()
         return render(request, 'add_plan.html', {'form': form})
     def post(self, request):
-        pass
+        form = AddPlanForm(request.POST)
+        if form.is_valid():
+            form.date = datetime.datetime.now()
+            form.save()
+
+            result = "Plan został utworzony."
+            return render(request, "add_plan.html", {"form": form, "result": result})
+        else:
+            result = "Wystąpił błąd"
+            return render(request, "add_plan.html", {"form": form, "result": result})
 
 
 class GenerateShoppingList(LoginRequiredMixin, View):

@@ -55,7 +55,7 @@ class ProductInRecipe(models.Model):
 class Plan(models.Model):
     name = models.CharField(max_length=64, unique=True)
     description = models.TextField(null=True)
-    date = models.DateTimeField()
+    date = models.DateTimeField(null = True)
     recipes = models.ManyToManyField(Recipe)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     def __str__(self):
