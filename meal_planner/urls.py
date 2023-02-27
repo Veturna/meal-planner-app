@@ -19,7 +19,7 @@ from planner_app.views import MainPage, AboutApp, RecipesView, RecipeDetail, Edi
     PlansView, PlanDetail, Profile, AddRecipe, GenerateShoppingList
 
 urlpatterns = [
-    path('accounts/', include(('django.contrib.auth.urls', 'auth'))),
+    path('accounts/', include(('django.contrib.auth.urls', 'auth'), namespace='accounts')),
     path('accounts/profile/', Profile.as_view()),
     path('admin/', admin.site.urls),
     path('', MainPage.as_view()),

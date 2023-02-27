@@ -9,15 +9,11 @@
   <form method="post">
 {% csrf_token %}
   {{ form.as_p }}
-    <br><br><input type="submit" value="Zapisz zmiany">
+  <input type="submit" value="Zapisz zmiany">
 </form>
 </div>
-
-<div class="edited">
-  <h4>Dane po edycji: </h4>
-  <h5>Nazwa: {{ name }}</h5>
-  <h5>Opis: {{ description }}</h5>
-  <h5>Przygotowanie: {{ preparation }}</h5>
+<div>
+  <h1>{{ result }}</h1>
 </div>
 <div class="">
   <a href="/edit/product/{{ recipe.pk }}"><input type="button" value="Edycja produktów"></a>

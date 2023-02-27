@@ -69,7 +69,8 @@ class EditRecipe(LoginRequiredMixin, View):
             recipe.preparation = preparation
 
             recipe.save()
-            return render(request, "edit_recipe.html")
+            result = "Zmiany zostały zapisane"
+            return render(request, "edit_recipe.html", {'result': result})
 
 
 class EditProductsInRecipe(LoginRequiredMixin, View):
@@ -123,14 +124,6 @@ class PlanDetail(LoginRequiredMixin, View):
         return render(request, "plan_details.html", {"plan": plan})
 
 
-class AddPlan(LoginRequiredMixin, View):
-    """Dodawanie planów"""
-    def get(self, request):
-        pass
-    def post(self, request):
-        pass
-
-
 class GenerateShoppingList(LoginRequiredMixin, View):
     """Generowanie listy zakupów"""
     def get(self, request, plan_pk):
@@ -147,6 +140,7 @@ class GenerateShoppingList(LoginRequiredMixin, View):
                 shopping_list.append((product_name, quantity, quantity_categories))
 
         return render(request, "shopping_list.html", {"shopping_list": shopping_list, "plan": plan})
+
 
     def generatePDF(self, request, plan_pk):
         plan = Plan.objects.get(pk=plan_pk)
@@ -169,3 +163,11 @@ class GenerateShoppingList(LoginRequiredMixin, View):
 
         response = FileResponse(pdf_file, as_attachnment=False, filename = "lista-zakupow.pdf")
         return response
+
+
+class AddPlan(LoginRequiredMixin, View):
+    """Dodawanie planów"""
+    def get(self, request):
+        pass
+    def post(self, request):
+        pass
