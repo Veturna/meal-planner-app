@@ -122,10 +122,12 @@ class AddPlan(View):
 
 
 class DeletePlan(View):
+    """Usuwanie planów"""
     def get(self, request, plan_pk):
         plan = Plan.objects.get(pk=plan_pk)
         plan.delete()
         return redirect("plans")
+
 
 class GenerateShoppingList(LoginRequiredMixin, View):
     """Generowanie listy zakupów"""
@@ -145,6 +147,7 @@ class GenerateShoppingList(LoginRequiredMixin, View):
         return render(request, "shopping_list.html", {"shopping_list": shopping_list, "plan": plan})
 
     def generatePDF(self, request, plan_pk):
+        """Generowanie PDF"""
         plan = Plan.objects.get(pk=plan_pk)
         shopping_list = []
 
