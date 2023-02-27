@@ -33,6 +33,7 @@ urlpatterns = [
     path('add/recipe/', AddRecipe.as_view()),
     re_path(r'^shopping-list/(?P<plan_pk>\d+)/$', GenerateShoppingList.as_view()),
     re_path(r'^shopping-list/(?P<plan_pk>\d+)/pdf/$', GenerateShoppingList.as_view(), name='generate-shopping-list-pdf'),
+    path('add/plan/', AddPlan.as_view()),
 
 ]
 

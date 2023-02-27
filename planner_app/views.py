@@ -89,27 +89,6 @@ class EditProductsInRecipe(LoginRequiredMixin, View):
         return render(request, "edit_product.html", {"formset": formset, "recipe": recipe})
 
 
-class AddRecipe(LoginRequiredMixin, View):
-    """Dodawanie planów"""
-    def get(self, request):
-        form = AddRecipeForm()
-        formset = ProductInRecipeForm()
-        return render(request, 'add_recipe.html', {'form': form, "formset": formset})
-    def post(self, request):
-        form = AddRecipeForm(request.POST)
-        if form.is_valid():
-            name = form.cleaned_data["name"]
-            description = form.cleaned_data["description"]
-            preparation = form.cleaned_data["preparation"]
-            products = form.cleaned_data["products"]
-            new_recipe = Recipe.objects.create(name=name, description=description, preparation=preparation, products=products)
-            new_recipe.save()
-            result = "Przepis został utworzony."
-            return render(request, "add_recipe.html", {"form": form, "result": result})
-        else:
-            return render(request, "add_recipe.html", {"form": form})
-
-
 class PlansView(LoginRequiredMixin, View):
     """Widok planów"""
     def get(self, request):
@@ -122,6 +101,14 @@ class PlanDetail(LoginRequiredMixin, View):
     def get(self, request, id):
         plan = Plan.objects.get(id=id)
         return render(request, "plan_details.html", {"plan": plan})
+
+
+class AddPlan(LoginRequiredMixin, View):
+    """Dodawanie planów"""
+    def get(self, request):
+        pass
+    def post(self, request):
+        pass
 
 
 class GenerateShoppingList(LoginRequiredMixin, View):
@@ -140,7 +127,6 @@ class GenerateShoppingList(LoginRequiredMixin, View):
                 shopping_list.append((product_name, quantity, quantity_categories))
 
         return render(request, "shopping_list.html", {"shopping_list": shopping_list, "plan": plan})
-
 
     def generatePDF(self, request, plan_pk):
         plan = Plan.objects.get(pk=plan_pk)
@@ -165,9 +151,22 @@ class GenerateShoppingList(LoginRequiredMixin, View):
         return response
 
 
-class AddPlan(LoginRequiredMixin, View):
+class AddRecipe(LoginRequiredMixin, View):
     """Dodawanie planów"""
     def get(self, request):
-        pass
+        form = AddRecipeForm()
+        formset = ProductInRecipeForm()
+        return render(request, 'add_recipe.html', {'form': form, "formset": formset})
     def post(self, request):
-        pass
+        form = AddRecipeForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            description = form.cleaned_data["description"]
+            preparation = form.cleaned_data["preparation"]
+            products = form.cleaned_data["products"]
+            new_recipe = Recipe.objects.create(name=name, description=description, preparation=preparation, products=products)
+            new_recipe.save()
+            result = "Przepis został utworzony."
+            return render(request, "add_recipe.html", {"form": form, "result": result})
+        else:
+            return render(request, "add_recipe.html", {"form": form})
