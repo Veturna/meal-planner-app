@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.template.loader import get_template
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import FileResponse
+from django.http import HttpResponse
 from django.urls import reverse
 
 from weasyprint import HTML
@@ -150,8 +150,10 @@ class GenerateShoppingList(LoginRequiredMixin, View):
 
         return render(request, "shopping_list.html", {"shopping_list": shopping_list, "plan": plan})
 
-    def generatePDF(self, request, plan_pk):
-        """Generowanie PDF"""
+
+class GeneratePDF(View):
+    """Generowanie PDF"""
+    def get(self, request, plan_pk):
         plan = Plan.objects.get(pk=plan_pk)
         shopping_list = []
 
@@ -165,11 +167,14 @@ class GenerateShoppingList(LoginRequiredMixin, View):
                 shopping_list.append((product_name, quantity, quantity_categories))
 
         template = get_template('shopping_list.html')
-        html = template.render({"shopping_list": shopping_list, "plan": plan})
+        context = {"shopping_list": shopping_list, "plan": plan}
 
-        pdf_file = io.BytesIO()
-        HTML(string=html).write_pdf(pdf_file)
+        html_string = template.render(context)
+        html = HTML(string=html_string)
 
-        response = FileResponse(pdf_file, as_attachnment=False, filename = "lista-zakupow.pdf")
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'filename="lista-zakupow.pdf"'
+
+        html.write_pdf(response)
         return response
 
