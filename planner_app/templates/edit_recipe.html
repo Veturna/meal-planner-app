@@ -13,7 +13,7 @@
 </form>
 </div>
 <div class="">
-  <a href="/edit/product/{{ recipe.pk }}"><input type="button" value="Edytuj produkty"></a>
+  <a href="{% url 'edit-products-in-recipe' id=recipe.pk %}"><input type="button" value="Edytuj produkty"></a>
 </div>
 <div>
   <h1>{{ result }}</h1>

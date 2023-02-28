@@ -6,11 +6,12 @@ from django.views import View
 from django.template.loader import get_template
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import FileResponse
+from django.urls import reverse
 
 from weasyprint import HTML
 
 from planner_app.models import Recipe, ProductInRecipe, Plan
-from planner_app.form import EditRecipeForm, ProductInRecipeFormSet, AddRecipeForm, ProductInRecipeForm, AddPlanForm
+from planner_app.form import EditRecipeForm, ProductInRecipeFormSet, AddPlanForm
 
 
 class Profile(LoginRequiredMixin, View):
@@ -69,8 +70,8 @@ class EditRecipe(LoginRequiredMixin, View):
             recipe.preparation = preparation
 
             recipe.save()
-            result = "Zmiany zostały zapisane"
-            return render(request, "edit_recipe.html", {'result': result})
+            return redirect('edit-products-in-recipe', id=recipe.id)
+        return render(request, "edit_recipe.html")
 
 
 class EditProductsInRecipe(LoginRequiredMixin, View):
@@ -85,7 +86,8 @@ class EditProductsInRecipe(LoginRequiredMixin, View):
         formset = ProductInRecipeFormSet(request.POST)
         if formset.is_valid():
             formset.save()
-            return redirect('recipe-detail', id=recipe.id)
+            url = reverse('recipe-detail', kwargs={'id': recipe.id})
+            return redirect(url)
         return render(request, "edit_product.html", {"formset": formset, "recipe": recipe})
 
 
@@ -111,8 +113,10 @@ class AddPlan(View):
     def post(self, request):
         form = AddPlanForm(request.POST)
         if form.is_valid():
-            form.date = datetime.datetime.now()
-            form.save()
+            plan = form.save(commit=False)
+            plan.date = datetime.datetime.now()
+            plan.user = request.user
+            plan.save()
 
             result = "Plan został utworzony."
             return render(request, "add_plan.html", {"form": form, "result": result})
@@ -169,23 +173,3 @@ class GenerateShoppingList(LoginRequiredMixin, View):
         response = FileResponse(pdf_file, as_attachnment=False, filename = "lista-zakupow.pdf")
         return response
 
-
-class AddRecipe(LoginRequiredMixin, View):
-    """Dodawanie planów"""
-    def get(self, request):
-        form = AddRecipeForm()
-        formset = ProductInRecipeForm()
-        return render(request, 'add_recipe.html', {'form': form, "formset": formset})
-    def post(self, request):
-        form = AddRecipeForm(request.POST)
-        if form.is_valid():
-            name = form.cleaned_data["name"]
-            description = form.cleaned_data["description"]
-            preparation = form.cleaned_data["preparation"]
-            products = form.cleaned_data["products"]
-            new_recipe = Recipe.objects.create(name=name, description=description, preparation=preparation, products=products)
-            new_recipe.save()
-            result = "Przepis został utworzony."
-            return render(request, "add_recipe.html", {"form": form, "result": result})
-        else:
-            return render(request, "add_recipe.html", {"form": form})

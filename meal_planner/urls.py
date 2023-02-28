@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path, include
 from planner_app.views import MainPage, AboutApp, RecipesView, RecipeDetail, EditRecipe, EditProductsInRecipe, \
-    PlansView, PlanDetail, Profile, AddRecipe, GenerateShoppingList, AddPlan, DeletePlan
+    PlansView, PlanDetail, Profile, GenerateShoppingList, AddPlan, DeletePlan
 
 urlpatterns = [
     path('accounts/', include(('django.contrib.auth.urls', 'auth'), namespace='accounts')),
@@ -27,10 +27,9 @@ urlpatterns = [
     path('recipes/', RecipesView.as_view()),
     re_path(r'^detail/(?P<id>\d+)/$', RecipeDetail.as_view(), name='recipe-detail'),
     re_path(r'^edit/(?P<id>\d+)/$', EditRecipe.as_view()),
-    re_path(r'^edit/product/(?P<id>\d+)/$', EditProductsInRecipe.as_view()),
+    re_path(r'^edit/product/(?P<id>\d+)/$', EditProductsInRecipe.as_view(), name='edit-products-in-recipe'),
     path('plans/', PlansView.as_view(), name='plans'),
     re_path(r'^plan/detail/(?P<id>\d+)/$', PlanDetail.as_view()),
-    path('add/recipe/', AddRecipe.as_view()),
     re_path(r'^shopping-list/(?P<plan_pk>\d+)/$', GenerateShoppingList.as_view()),
     re_path(r'^shopping-list/(?P<plan_pk>\d+)/pdf/$', GenerateShoppingList.as_view(), name='generate-shopping-list-pdf'),
     path('add/plan/', AddPlan.as_view()),
