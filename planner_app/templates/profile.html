@@ -8,11 +8,11 @@
   <h1>Profil użytkownika | {{ request.user.username }}</h1>
 </div>
 <div>
-  <p>
-    Nazwa użytkownika: {{ request.user.username}} <br>
-    Data dołączenia: {{ request.user.date_joined}} <br>
-    E-mail: {{ request.user.email}} <br>
-    Ostanie logowanie: {{ request.user.last_login}} <br>
+  <p class="profile">
+    <b>Nazwa użytkownika:</b> {{ request.user.username}} <br>
+    <b>Data dołączenia:</b> {{ request.user.date_joined}} <br>
+    <b>E-mail:</b> {{ request.user.email}} <br>
+    <b>Ostanie logowanie:</b> {{ request.user.last_login}} <br>
   </p>
 </div>
 
