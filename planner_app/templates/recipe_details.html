@@ -8,15 +8,15 @@
   <h1>Szczegóły przepisu | {{ recipe.name }}</h1>
 </div>
 
-<div class="recipe-products">
-  <h3>Składniki:</h3>
+<div class="products">
+  <h2 class="title">Składniki:</h2>
   {% for product in products%}
-    <li>{{ product.product }}: {{ product.quantity }} {{ product.get_quantity_categories_display }}</li>
+    <li><b>{{ product.product }}:</b> {{ product.quantity }} {{ product.get_quantity_categories_display }}</li>
   {% endfor %}
 </div>
 
-<div class="recipe-preparation">
-    <h3>Przygotowanie: </h3>
+<div class="products">
+    <h2 class="title">Przygotowanie: </h2>
     <p>{{ recipe.preparation }}</p>
 </div>
 

@@ -8,17 +8,14 @@
   <h1>Edytuj przepis | {{ recipe.name }}</h1>
 </div>
 
-<div class="edit-recipe-form">
+<div class="form">
   <form method="post">
 {% csrf_token %}
   {{ form.as_p }}
   <input type="submit" value="Zapisz zmiany">
 </form>
 </div>
-<div class="">
+<div class="button">
   <a href="{% url 'edit-products-in-recipe' id=recipe.pk %}"><input type="button" value="Edytuj produkty"></a>
-</div>
-<div>
-  <h1>{{ result }}</h1>
 </div>
 {% endblock %}

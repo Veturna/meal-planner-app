@@ -8,18 +8,16 @@
   <h1>Szczegóły planu | {{ plan.name }}</h1>
 </div>
 
-<div class="plan-recipe">
+<div class="list">
   <ul><h3>Przepisy:</h3>
       {% for recipe in plan.recipes.all %}
     <li>{{ recipe.name }}</li>
       {% endfor %}
   </ul>
 </div>
-<div>
-  <a href="/shopping-list/{{ plan.pk }}/"><input type="button" value="Wygeneruj listę zakupów"></a>
-</div>
-<div>
-  <a href="/delete/plan/{{ plan.pk }}/"><input type="button" value="Usuń plan"></a>
-</div>
+
+  <a class="button" href="/shopping-list/{{ plan.pk }}/"><input type="button" value="Wygeneruj listę zakupów"></a><br><br>
+  <a class="button" href="/delete/plan/{{ plan.pk }}/"><input type="button" value="Usuń plan"></a>
+
 
 {% endblock %}

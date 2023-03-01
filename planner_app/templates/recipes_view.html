@@ -8,12 +8,11 @@
   <h1>Lista przepisów</h1>
 </div>
 
-<div class="all-recipes">
+<div class="list">
   {% for recipe in recipes %}
-
-    <li>Nazwa: {{recipe.name}}</li>
-    <li>Opis: {{recipe.description}}</li>
-      <div class="detail-button">
+    <li><b>Nazwa:</b> {{recipe.name}}</li>
+    <li><b>Opis:</b> {{recipe.description}}</li>
+      <div class="button">
         <a href="/detail/{{ recipe.pk }}"><input type="submit" name="detail" value="Szczegóły"></a><br><br>
       </div>
   {% endfor %}

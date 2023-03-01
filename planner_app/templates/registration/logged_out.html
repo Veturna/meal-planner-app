@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load i18n static %}
-
+{% block style %}
+      <link rel="stylesheet" href="{% static 'css/main.css' %}"></link>
+{% endblock %}
 {% block content %}
 
 <p>{% translate "Thanks for spending some quality time with the web site today." %}</p>

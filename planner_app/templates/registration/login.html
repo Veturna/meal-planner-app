@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load i18n static %}
-
+{% block style %}
+      <link rel="stylesheet" href="{% static 'css/main.css' %}"></link>
+{% endblock %}
 {% block content %}
 {% if form.errors and not form.non_field_errors %}
 <p class="errornote">

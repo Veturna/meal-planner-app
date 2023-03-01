@@ -8,14 +8,14 @@
   <h1>Edytuj produkty przepisu -  {{ recipe.name }}</h1>
 </div>
 
-<div class="edit-recipe-form">
+<div class="form">
   <form method="post">
     {% csrf_token %}
     {{ formset.management_form }}
     {% for form in formset %}
-      {{ form.as_p }}
+    {{ form.as_p }}
     {% endfor %}
-    <br><br><input type="submit" value="Zapisz zmiany">
+    <br><br><input class="button" type="submit" value="Zapisz zmiany">
   </form>
 </div>
 {% endblock %}

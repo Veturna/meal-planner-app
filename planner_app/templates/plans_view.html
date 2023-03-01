@@ -7,24 +7,22 @@
 <div class="name">
   <h1>Lista utworzonych planów: </h1>
 </div>
-<div class="all-plan">
+<div class="list">
   {% for plan in plans %}
   {% if user.id == plan.user.id %}
-  <ol>
-    <li>Nazwa: {{ plan.name }}</li>
-    <li>Opis: {{ plan.description }}</li>
-    <li>Data dodania: {{ plan.date }}</li>
-      <div class="detail-button">
-        <a href="/plan/detail/{{ plan.pk }}"><input type="button" name="detail" value="Szczegóły"></a><br>
-      </div>
-  </ol>
+  <li><b>Nazwa:</b> {{ plan.name }}</li>
+  <li><b>Opis:</b> {{ plan.description }}</li>
+  <li><b>Data dodania:</b> {{ plan.date }}</li><br>
+  <div class="button">
+    <a href="/plan/detail/{{ plan.pk }}"><input type="button" name="detail" value="Szczegóły"></a><br><br>
+  </div>
   {% else %}
   <p> Nie masz jeszcze stworzonych planów </p>
   {% endif %}
   {% endfor %}
 </div>
 
-<div class="add-plan">
+<div class="button">
   <a href="/add/plan/"><input type="button" name="add" value="Dodaj nowy plan"></a>
 </div>
 {% endblock %}

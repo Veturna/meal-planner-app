@@ -7,11 +7,11 @@
 <div class="name">
   <h2>Lista zakupów na bazie planu | {{plan.name}}: </h2>
 </div>
-<ul>
+<ul class="list">
   {% for item in shopping_list %}
-    <li>{{item.0}} | Ilość: {{item.1}} - {{item.2.get_quantity_categories_display}}</li>
+    <li><b>{{item.0}}</b> | Ilość: {{item.1}} - {{item.2.get_quantity_categories_display}}</li>
   {% endfor %}
 </ul>
 
-<a href="{% url 'generate-shopping-list-pdf' plan.pk %}">Eksportuj do PDF</a>
+<a class="button" href="{% url 'generate-shopping-list-pdf' plan.pk %}">Eksportuj do PDF</a>
 {% endblock %}
