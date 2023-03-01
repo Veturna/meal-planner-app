@@ -146,7 +146,7 @@ class GenerateShoppingList(LoginRequiredMixin, View):
                 quantity_categories = product_in_recipe.quantity_categories
                 product_name = product.name
 
-                shopping_list.append((product_name, quantity, quantity_categories))
+                shopping_list.append((product_name, quantity, quantity_categories,))
 
         return render(request, "shopping_list.html", {"shopping_list": shopping_list, "plan": plan})
 

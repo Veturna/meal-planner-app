@@ -5,14 +5,13 @@
     padding: 20px 20px 20px 40px;
 }
 
-.footer {
-	background: #F2B263;
-	position: fixed;
-	margin-bottom: 0;
-	margin-top: 40px;
-	padding: 20px 20px 20px 40px;
-}
-
 body {
 	background: #F2E8DF;
 }
+
+.name {
+	color: #F28585;
+	font-family: Arial;
+	
+}
+

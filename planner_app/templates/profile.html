@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<h1>Profil użytkownika | {{ request.user.username }}</h1>
+<div class="name">
+  <h1>Profil użytkownika | {{ request.user.username }}</h1>
+</div>
 <div>
   <p>
     Nazwa użytkownika: {{ request.user.username}} <br>
