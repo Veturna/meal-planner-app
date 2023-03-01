@@ -22,10 +22,10 @@ CATEGORIES = (
 
 
 QUANTITY_CATEGORIES = (
-    (1, "Glass"),
-    (2, "Tea Spoon"),
-    (3, "Table Spoon"),
-    (4, "Piece"),
+    (1, "Szklanka"),
+    (2, "Łyżeczka"),
+    (3, "Łyżka"),
+    (4, "Sztuka"),
 )
 
 
