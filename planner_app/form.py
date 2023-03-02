@@ -1,5 +1,5 @@
 from django import forms
-from planner_app.models import ProductInRecipe, Plan
+from planner_app.models import ProductInRecipe, Plan, Recipe
 from django.forms import modelform_factory, modelformset_factory
 
 
@@ -14,6 +14,10 @@ ProductInRecipeFormSet = modelformset_factory(ProductInRecipe, form=ProductInRec
 
 
 class AddPlanForm(forms.ModelForm):
+    recipes = forms.ModelMultipleChoiceField(
+        queryset=Recipe.objects.all(),
+        widget=forms.CheckboxSelectMultiple
+    )
     class Meta:
         model = Plan
         fields = ("name", "description", "recipes")

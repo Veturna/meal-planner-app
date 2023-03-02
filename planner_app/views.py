@@ -119,12 +119,10 @@ class AddPlan(View):
             plan.date = datetime.datetime.now()
             plan.user = request.user
             plan.save()
+            plan.recipes.set(form.cleaned_data['recipes'])
 
-            result = "Plan został utworzony."
-            return render(request, "add_plan.html", {"form": form, "result": result})
-        else:
-            result = "Wystąpił błąd"
-            return render(request, "add_plan.html", {"form": form, "result": result})
+            return redirect('plans')
+        return render(request, "add_plan.html")
 
 
 class DeletePlan(View):
