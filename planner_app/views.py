@@ -129,20 +129,18 @@ class EditPlan(View):
     """Edycja planu"""
     def get(self, request, plan_pk):
         plan = Plan.objects.get(pk=plan_pk)
-        form = EditPlanForm()
+        form = EditPlanForm(instance=plan)
         return render(request, 'edit_plan.html', {'form': form})
+
     def post(self, request, plan_pk):
         plan = Plan.objects.get(pk=plan_pk)
-        form = EditPlanForm()
+        form = EditPlanForm(request.POST, instance=plan)
         if form.is_valid():
-            plan = form.save(commit=False)
-            plan.date = datetime.datetime.now()
-            plan.user = request.user
-            plan.save()
+            form.save()
             plan.recipes.set(form.cleaned_data['recipes'])
+            return redirect('plan-detail', plan_pk=plan.id)
 
-            return redirect('plan-detail', id=plan.id)
-        return render(request, "edit_recipe.html")
+        return render(request, "edit_plan.html", {"form": form})
 
 class DeletePlan(View):
     """Usuwanie planów"""
