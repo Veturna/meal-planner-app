@@ -6,5 +6,3 @@ admin.site.register(Product)
 admin.site.register(Recipe)
 admin.site.register(ProductInRecipe)
 admin.site.register(Plan)
-
-

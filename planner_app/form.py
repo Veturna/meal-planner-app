@@ -1,6 +1,7 @@
 from django import forms
-from planner_app.models import ProductInRecipe, Recipe, Plan, Product, QUANTITY_CATEGORIES
+from planner_app.models import ProductInRecipe, Plan
 from django.forms import modelform_factory, modelformset_factory
+
 
 class EditRecipeForm(forms.Form):
     name = forms.CharField(label="Nazwa", max_length=64)

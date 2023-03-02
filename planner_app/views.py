@@ -1,4 +1,3 @@
-import io
 import datetime
 
 from django.shortcuts import render, redirect
@@ -36,7 +35,7 @@ class RecipesView(View):
     """Widok przepisów"""
     def get(self, request):
         recipes = Recipe.objects.all()
-        return render(request, "recipes_view.html", {"recipes":recipes})
+        return render(request, "recipes_view.html", {"recipes": recipes})
 
 
 class RecipeDetail(View):
@@ -44,22 +43,23 @@ class RecipeDetail(View):
     def get(self, request, id):
         recipe = Recipe.objects.get(id=id)
         products = ProductInRecipe.objects.filter(recipe=recipe)
-        return render(request, "recipe_details.html", {"recipe":recipe, "products":products})
+        return render(request, "recipe_details.html", {"recipe": recipe, "products": products})
 
 
 class EditRecipe(LoginRequiredMixin, View):
     """Edycja przepisu"""
     def get(self, request, id):
         recipe = Recipe.objects.get(id=id)
-        form = EditRecipeForm(initial= {"name": recipe.name,
-                                        "description": recipe.description,
+        form = EditRecipeForm(initial= {"name": recipe.name, "description": recipe.description,
                                         "preparation": recipe.preparation,
                                         }
                               )
         return render(request, 'edit_recipe.html', {'form': form, "recipe": recipe})
+
     def post(self, request, id):
         recipe = Recipe.objects.get(id=id)
         form = EditRecipeForm(request.POST)
+
         if form.is_valid():
             name = form.cleaned_data["name"]
             description = form.cleaned_data["description"]
@@ -81,6 +81,7 @@ class EditProductsInRecipe(LoginRequiredMixin, View):
         products = ProductInRecipe.objects.filter(recipe=recipe)
         formset = ProductInRecipeFormSet(queryset=products)
         return render(request, 'edit_product.html', {"formset": formset, "recipe": recipe})
+
     def post(self, request, id):
         recipe = Recipe.objects.get(id=id)
         formset = ProductInRecipeFormSet(request.POST)
@@ -110,6 +111,7 @@ class AddPlan(View):
     def get(self, request):
         form = AddPlanForm()
         return render(request, 'add_plan.html', {'form': form})
+
     def post(self, request):
         form = AddPlanForm(request.POST)
         if form.is_valid():
@@ -177,4 +179,3 @@ class GeneratePDF(View):
 
         html.write_pdf(response)
         return response
-

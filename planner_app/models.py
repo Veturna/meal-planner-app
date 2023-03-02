@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 CATEGORIES = (
-    (1,"Fruit"),
+    (1, "Fruit"),
     (2, "Vegetable"),
     (3, "Pasta"),
     (4, "Sauce"),
@@ -32,6 +32,7 @@ QUANTITY_CATEGORIES = (
 class Product(models.Model):
     name = models.CharField(max_length=64, unique=True)
     category = models.IntegerField(choices=CATEGORIES)
+
     def __str__(self):
         return self.name
 
@@ -41,6 +42,7 @@ class Recipe(models.Model):
     description = models.TextField(null=True)
     products = models.ManyToManyField(Product, through='ProductInRecipe')
     preparation = models.TextField(null=False)
+
     def __str__(self):
         return self.name
 
@@ -55,9 +57,10 @@ class ProductInRecipe(models.Model):
 class Plan(models.Model):
     name = models.CharField(max_length=64, unique=True)
     description = models.TextField(null=True)
-    date = models.DateTimeField(null = True)
+    date = models.DateTimeField(null=True)
     recipes = models.ManyToManyField(Recipe)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
     def __str__(self):
         return self.name
 
@@ -67,6 +70,6 @@ class ShoppingList(models.Model):
     date = models.DateTimeField()
     products = models.ManyToManyField(Product)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
     def __str__(self):
         return self.name
-
