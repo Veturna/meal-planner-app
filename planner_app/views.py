@@ -10,7 +10,7 @@ from django.urls import reverse
 from weasyprint import HTML
 
 from planner_app.models import Recipe, ProductInRecipe, Plan
-from planner_app.form import EditRecipeForm, ProductInRecipeFormSet, AddPlanForm
+from planner_app.form import EditRecipeForm, ProductInRecipeFormSet, AddPlanForm, EditPlanForm
 
 
 class Profile(LoginRequiredMixin, View):
@@ -124,6 +124,28 @@ class AddPlan(View):
             return redirect('plans')
         return render(request, "add_plan.html")
 
+
+class EditPlan(View):
+    """Edycja planu"""
+    def get(self, request, plan_pk):
+        plan = Plan.objects.get(pk=plan_pk)
+        form = EditPlanForm()
+        return render(request, 'edit_plan.html', {'form': form})
+    def post(self, request, plan_pk):
+        plan = Plan.objects.get(pk=plan_pk)
+        form = EditPlanForm()
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            description = form.cleaned_data["description"]
+            preparation = form.cleaned_data["preparation"]
+
+            recipe.name = name
+            recipe.description = description
+            recipe.preparation = preparation
+
+            recipe.save()
+            return redirect('edit-products-in-recipe', id=recipe.id)
+        return render(request, "edit_recipe.html")
 
 class DeletePlan(View):
     """Usuwanie planów"""
