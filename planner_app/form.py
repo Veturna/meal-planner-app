@@ -21,3 +21,12 @@ class AddPlanForm(forms.ModelForm):
     class Meta:
         model = Plan
         fields = ("name", "description", "recipes")
+
+class EditPlanForm(forms.ModelForm):
+    recipes = forms.ModelMultipleChoiceField(
+        queryset=Recipe.objects.all(),
+        widget=forms.CheckboxSelectMultiple
+    )
+    class Meta:
+        model = Plan
+        fields = ("name", "description", "recipes")

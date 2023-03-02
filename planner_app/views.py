@@ -40,24 +40,24 @@ class RecipesView(View):
 
 class RecipeDetail(View):
     """Szczegóły przepisu"""
-    def get(self, request, id):
-        recipe = Recipe.objects.get(id=id)
+    def get(self, request, recipe_pk):
+        recipe = Recipe.objects.get(id=recipe_pk)
         products = ProductInRecipe.objects.filter(recipe=recipe)
         return render(request, "recipe_details.html", {"recipe": recipe, "products": products})
 
 
 class EditRecipe(LoginRequiredMixin, View):
     """Edycja przepisu"""
-    def get(self, request, id):
-        recipe = Recipe.objects.get(id=id)
+    def get(self, request, recipe_pk):
+        recipe = Recipe.objects.get(id=recipe_pk)
         form = EditRecipeForm(initial= {"name": recipe.name, "description": recipe.description,
                                         "preparation": recipe.preparation,
                                         }
                               )
         return render(request, 'edit_recipe.html', {'form': form, "recipe": recipe})
 
-    def post(self, request, id):
-        recipe = Recipe.objects.get(id=id)
+    def post(self, request, recipe_pk):
+        recipe = Recipe.objects.get(id=recipe_pk)
         form = EditRecipeForm(request.POST)
 
         if form.is_valid():
@@ -76,14 +76,14 @@ class EditRecipe(LoginRequiredMixin, View):
 
 class EditProductsInRecipe(LoginRequiredMixin, View):
     """Edycja produktów w przepisie"""
-    def get(self, request, id):
-        recipe = Recipe.objects.get(id=id)
+    def get(self, request, recipe_pk):
+        recipe = Recipe.objects.get(id=recipe_pk)
         products = ProductInRecipe.objects.filter(recipe=recipe)
         formset = ProductInRecipeFormSet(queryset=products)
         return render(request, 'edit_product.html', {"formset": formset, "recipe": recipe})
 
-    def post(self, request, id):
-        recipe = Recipe.objects.get(id=id)
+    def post(self, request, recipe_pk):
+        recipe = Recipe.objects.get(id=recipe_pk)
         formset = ProductInRecipeFormSet(request.POST)
         if formset.is_valid():
             formset.save()
@@ -101,8 +101,8 @@ class PlansView(LoginRequiredMixin, View):
 
 class PlanDetail(View):
     """Szczegóły planu"""
-    def get(self, request, id):
-        plan = Plan.objects.get(id=id)
+    def get(self, request, plan_pk):
+        plan = Plan.objects.get(id=plan_pk)
         return render(request, "plan_details.html", {"plan": plan})
 
 
@@ -135,16 +135,13 @@ class EditPlan(View):
         plan = Plan.objects.get(pk=plan_pk)
         form = EditPlanForm()
         if form.is_valid():
-            name = form.cleaned_data["name"]
-            description = form.cleaned_data["description"]
-            preparation = form.cleaned_data["preparation"]
+            plan = form.save(commit=False)
+            plan.date = datetime.datetime.now()
+            plan.user = request.user
+            plan.save()
+            plan.recipes.set(form.cleaned_data['recipes'])
 
-            recipe.name = name
-            recipe.description = description
-            recipe.preparation = preparation
-
-            recipe.save()
-            return redirect('edit-products-in-recipe', id=recipe.id)
+            return redirect('plan-detail', id=plan.id)
         return render(request, "edit_recipe.html")
 
 class DeletePlan(View):
