@@ -1,6 +1,7 @@
 import pytest
 from django.conf import settings
 from django.test.utils import get_runner
+from django.test import Client
 
 def pytest_configure():
     settings.debug = False
@@ -29,3 +30,7 @@ def django_db(django_db_setup, django_db_blocker):
 def enable_db_access_for_all_tests(db):
     pass
 
+@pytest.fixture
+def client():
+    client = Client()
+    return client

@@ -1,7 +1,6 @@
 import pytest
 from django.urls import reverse
-from django.test import Client
-from planner_app.models import Recipe
+from planner_app.models import Recipe, Plan
 
 @pytest.mark.django_db
 def test_MainPage(client):
@@ -51,3 +50,21 @@ def test_EditRecipe(client):
 
 
 @pytest.mark.django_db
+def test_AddPlan(client, django_user_model):
+    user = django_user_model.objects.create_user(username='testuser', email='test@example.com', password='testpass')
+    client.login(username='testuser', password='testpass')
+
+    data = {
+        'name': 'Test Plan',
+        'description': 'Test Plan Description',
+        'recipes': []
+    }
+
+    response = client.post(reverse('add-plan'), data=data, follow=True)
+
+    assert response.status_code == 200
+    assert Plan.objects.count() == 1
+    assert Plan.objects.first().name == 'Test Plan'
+    assert Plan.objects.first().description == 'Test Plan Description'
+
+
