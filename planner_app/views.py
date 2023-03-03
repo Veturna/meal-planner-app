@@ -14,41 +14,78 @@ from planner_app.form import EditRecipeForm, ProductInRecipeFormSet, AddPlanForm
 
 
 class Profile(LoginRequiredMixin, View):
-    """Widok profilu użytkownika"""
+    """View showing the user's profile."""
     def get(self, request):
+        """
+        A method that serves a GET request and shows the user's profile.
+
+        :param request: HttpRequest
+        :return: HttpResponse
+        """
         return render(request, "profile.html")
 
 
 class MainPage(View):
-    """Strona główna aplikacji"""
+    """View showing the main page of application"""
     def get(self, request):
+        """
+        A method that serves a GET request and shows the main page.
+
+        :param request: HttpRequest
+        :return: HttpResponse
+        """
         return render(request, "main_page.html")
 
 
 class AboutApp(View):
-    """Strona "o aplikacji"""
+    """View showing additional information about application"""
     def get(self, request):
+        """
+        A method that serves a GET request and shows the additional information about application.
+
+        :param request: HttpRequest
+        :return: HttpResponse
+        """
         return render(request, "about_app.html")
 
 
 class RecipesView(View):
-    """Widok przepisów"""
+    """View showing all recipes from db"""
     def get(self, request):
+        """
+        A method that serves a GET request and shows all recipes.
+
+        :param request: HttpRequest
+        :return: HttpResponse
+        """
         recipes = Recipe.objects.all()
         return render(request, "recipes_view.html", {"recipes": recipes})
 
 
 class RecipeDetail(View):
-    """Szczegóły przepisu"""
+    """View showing the details for recipe with a specific primary key"""
     def get(self, request, recipe_pk):
+        """
+        A method that serves a GET request and shows the additional information about recipe.
+
+        :param request: HttpRequest
+        :param recipe_pk: recipe primary key
+        :return: HttpResponse
+        """
         recipe = Recipe.objects.get(id=recipe_pk)
         products = ProductInRecipe.objects.filter(recipe=recipe)
         return render(request, "recipe_details.html", {"recipe": recipe, "products": products})
 
 
 class EditRecipe(LoginRequiredMixin, View):
-    """Edycja przepisu"""
+    """View showing form to edit recipe with a specific primary key"""
     def get(self, request, recipe_pk):
+        """
+        A method that serves a GET request and shows the form to edit the name, description and preparation of the recipe.
+        :param request: HttpRequest
+        :param recipe_pk: recipe primary_key
+        :return: HttpResponse
+        """
         recipe = Recipe.objects.get(id=recipe_pk)
         form = EditRecipeForm(initial= {"name": recipe.name, "description": recipe.description,
                                         "preparation": recipe.preparation,
@@ -57,6 +94,12 @@ class EditRecipe(LoginRequiredMixin, View):
         return render(request, 'edit_recipe.html', {'form': form, "recipe": recipe})
 
     def post(self, request, recipe_pk):
+        """
+        A method that serves a POST request. Data transferred to the form: name, description and preparation of the recipe.
+        :param request: HttpRequest
+        :param recipe_pk: recipe primary key
+        :return: HttpResponse
+        """
         recipe = Recipe.objects.get(id=recipe_pk)
         form = EditRecipeForm(request.POST)
 
@@ -75,14 +118,26 @@ class EditRecipe(LoginRequiredMixin, View):
 
 
 class EditProductsInRecipe(LoginRequiredMixin, View):
-    """Edycja produktów w przepisie"""
+    """View showing form to edit products in recipe with a specific primary key"""
     def get(self, request, recipe_pk):
+        """
+        A  method that serves a GET request and shows the form to edit the products (product, quantity, quantity_categories) in recipe.
+        :param request: HttpRequest
+        :param recipe_pk: recipe primary key
+        :return: HttpResponse
+        """
         recipe = Recipe.objects.get(id=recipe_pk)
         products = ProductInRecipe.objects.filter(recipe=recipe)
         formset = ProductInRecipeFormSet(queryset=products)
         return render(request, 'edit_product.html', {"formset": formset, "recipe": recipe})
 
     def post(self, request, recipe_pk):
+        """
+        A method that serves a POST request. Data transferred to the form: product, quantity, quantity_categories of the recipe.
+        :param request: HttpRequest
+        :param recipe_pk: recipe primary key
+        :return: HttpResponse
+        """
         recipe = Recipe.objects.get(id=recipe_pk)
         formset = ProductInRecipeFormSet(request.POST)
         if formset.is_valid():
