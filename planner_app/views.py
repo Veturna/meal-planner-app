@@ -148,26 +148,49 @@ class EditProductsInRecipe(LoginRequiredMixin, View):
 
 
 class PlansView(LoginRequiredMixin, View):
-    """Widok planów"""
+    """View showing all plans from db"""
     def get(self, request):
+        """
+        A method that serves a GET request and shows all the plans
+        :param request: HttpRequest
+        :return: HttpResponse
+        """
         plans = Plan.objects.all()
         return render(request, "plans_view.html", {"plans": plans})
 
 
 class PlanDetail(View):
-    """Szczegóły planu"""
+    """View showing the details for plan with a specific primary key"""
     def get(self, request, plan_pk):
+        """
+        A method that serves a GET request and shows the additional information about plan.
+
+        :param request: HttpRequest
+        :param recipe_pk: recipe primary key
+        :return: HttpResponse
+        """
         plan = Plan.objects.get(id=plan_pk)
         return render(request, "plan_details.html", {"plan": plan})
 
 
 class AddPlan(View):
-    """Dodawanie planów"""
+    """View showing the form to adding the plan to db"""
     def get(self, request):
+        """
+        A method that serves a GET request and shows the form to add the plan (name, description, recipes).
+
+        :param request: HttpRequest
+        :return: HttpResponse
+        """
         form = AddPlanForm()
         return render(request, 'add_plan.html', {'form': form})
 
     def post(self, request):
+        """
+        A method that serves a POST request. Data transferred to the form: name, description, recipes. Data and user are add automatically
+        :param request: HttpRequest
+        :return: HttpResponse
+        """
         form = AddPlanForm(request.POST)
         if form.is_valid():
             plan = form.save(commit=False)
@@ -181,13 +204,27 @@ class AddPlan(View):
 
 
 class EditPlan(View):
-    """Edycja planu"""
+    """View showing the form to edit the plan with specific primary key"""
     def get(self, request, plan_pk):
+        """
+        A method that serves a GET request and shows the form to edit the plan (name, description, recipes)
+
+        :param request: HttpRequest
+        :param recipe_pk: recipe primary key
+        :return: HttpResponse
+        """
         plan = Plan.objects.get(pk=plan_pk)
         form = EditPlanForm(instance=plan)
         return render(request, 'edit_plan.html', {'form': form})
 
     def post(self, request, plan_pk):
+        """
+        A method that serves a POST request. Data transferred to the form: name, description, recipes.
+
+        :param request: HttpRequest
+        :param recipe_pk: recipe primary key
+        :return: HttpResponse
+        """
         plan = Plan.objects.get(pk=plan_pk)
         form = EditPlanForm(request.POST, instance=plan)
         if form.is_valid():
@@ -198,16 +235,28 @@ class EditPlan(View):
         return render(request, "edit_plan.html", {"form": form})
 
 class DeletePlan(View):
-    """Usuwanie planów"""
+    """View deleting the plan with specific primary key from db"""
     def get(self, request, plan_pk):
+        """
+        A method that serves a GET request and deleting the plan
+        :param request: HttpRequest
+        :param recipe_pk: recipe primary key
+        :return: HttpResponse
+        """
         plan = Plan.objects.get(pk=plan_pk)
         plan.delete()
         return redirect("plans")
 
 
 class GenerateShoppingList(LoginRequiredMixin, View):
-    """Generowanie listy zakupów"""
+    """View generating the shopping list base of plan detail view"""
     def get(self, request, plan_pk):
+        """
+
+        :param request: HttpRequest
+        :param recipe_pk: recipe primary key
+        :return: HttpResponse
+        """
         plan = Plan.objects.get(pk=plan_pk)
         shopping_list = []
 
