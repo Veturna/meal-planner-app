@@ -115,7 +115,9 @@ class EditRecipe(LoginRequiredMixin, View):
             recipe.preparation = preparation
 
             recipe.save()
-            return redirect('edit-products-in-recipe', id=recipe.id)
+
+            url = reverse('edit-products-in-recipe', kwargs={"recipe_pk": recipe.id})
+            return redirect(url)
         return render(request, "edit_recipe.html")
 
 
@@ -146,7 +148,7 @@ class EditProductsInRecipe(LoginRequiredMixin, View):
         formset = ProductInRecipeFormSet(request.POST)
         if formset.is_valid():
             formset.save()
-            url = reverse('recipe-detail', kwargs={'id': recipe.id})
+            url = reverse('recipe-detail', kwargs={'recipe_pk': recipe.id})
             return redirect(url)
         return render(request, "edit_product.html", {"formset": formset, "recipe": recipe})
 
@@ -205,7 +207,8 @@ class AddPlan(View):
             plan.save()
             plan.recipes.set(form.cleaned_data['recipes'])
 
-            return redirect('plans')
+            url = reverse('plans')
+            return redirect(url)
         return render(request, "add_plan.html")
 
 
@@ -236,8 +239,9 @@ class EditPlan(View):
         if form.is_valid():
             form.save()
             plan.recipes.set(form.cleaned_data['recipes'])
-            return redirect('plan-detail', plan_pk=plan.id)
 
+            url = reverse('plan-detail', kwargs={'plan_pk': plan.id})
+            return redirect(url)
         return render(request, "edit_plan.html", {"form": form})
 
 
@@ -253,7 +257,9 @@ class DeletePlan(View):
         """
         plan = Plan.objects.get(pk=plan_pk)
         plan.delete()
-        return redirect("plans")
+
+        url = reverse('plans')
+        return redirect(url)
 
 
 class GenerateShoppingList(LoginRequiredMixin, View):

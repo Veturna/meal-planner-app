@@ -16,9 +16,9 @@
   <div class="button">
     <a href="/plan/detail/{{ plan.pk }}"><input type="button" name="detail" value="Szczegóły"></a><br><br>
   </div>
-  {% else %}
-  <p> Nie masz jeszcze stworzonych planów </p>
   {% endif %}
+    {% empty %}
+  <p> Nie masz jeszcze stworzonych planów </p>
   {% endfor %}
 </div>
 
