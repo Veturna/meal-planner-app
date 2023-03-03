@@ -59,6 +59,7 @@ class RecipesView(View):
         :return: HttpResponse
         """
         recipes = Recipe.objects.all()
+
         return render(request, "recipes_view.html", {"recipes": recipes})
 
 
@@ -74,6 +75,7 @@ class RecipeDetail(View):
         """
         recipe = Recipe.objects.get(id=recipe_pk)
         products = ProductInRecipe.objects.filter(recipe=recipe)
+
         return render(request, "recipe_details.html", {"recipe": recipe, "products": products})
 
 
@@ -92,7 +94,8 @@ class EditRecipe(LoginRequiredMixin, View):
                                         "preparation": recipe.preparation,
                                         }
                               )
-        return render(request, 'edit_recipe.html', {'form': form, "recipe": recipe})
+
+        return render(request, "edit_recipe.html", {"form": form, "recipe": recipe})
 
     def post(self, request, recipe_pk):
         """
@@ -116,8 +119,9 @@ class EditRecipe(LoginRequiredMixin, View):
 
             recipe.save()
 
-            url = reverse('edit-products-in-recipe', kwargs={"recipe_pk": recipe.id})
+            url = reverse("edit-products-in-recipe", kwargs={"recipe_pk": recipe.id})
             return redirect(url)
+
         return render(request, "edit_recipe.html")
 
 
@@ -134,7 +138,8 @@ class EditProductsInRecipe(LoginRequiredMixin, View):
         recipe = Recipe.objects.get(id=recipe_pk)
         products = ProductInRecipe.objects.filter(recipe=recipe)
         formset = ProductInRecipeFormSet(queryset=products)
-        return render(request, 'edit_product.html', {"formset": formset, "recipe": recipe})
+
+        return render(request, "edit_product.html", {"formset": formset, "recipe": recipe})
 
     def post(self, request, recipe_pk):
         """
@@ -146,10 +151,12 @@ class EditProductsInRecipe(LoginRequiredMixin, View):
         """
         recipe = Recipe.objects.get(id=recipe_pk)
         formset = ProductInRecipeFormSet(request.POST)
+
         if formset.is_valid():
             formset.save()
-            url = reverse('recipe-detail', kwargs={'recipe_pk': recipe.id})
+            url = reverse("recipe-detail", kwargs={"recipe_pk": recipe.id})
             return redirect(url)
+
         return render(request, "edit_product.html", {"formset": formset, "recipe": recipe})
 
 
@@ -163,6 +170,7 @@ class PlansView(LoginRequiredMixin, View):
         :return: HttpResponse
         """
         plans = Plan.objects.all()
+
         return render(request, "plans_view.html", {"plans": plans})
 
 
@@ -177,6 +185,7 @@ class PlanDetail(View):
         :return: HttpResponse
         """
         plan = Plan.objects.get(id=plan_pk)
+
         return render(request, "plan_details.html", {"plan": plan})
 
 
@@ -190,7 +199,8 @@ class AddPlan(View):
         :return: HttpResponse
         """
         form = AddPlanForm()
-        return render(request, 'add_plan.html', {'form': form})
+
+        return render(request, "add_plan.html", {"form": form})
 
     def post(self, request):
         """
@@ -200,15 +210,17 @@ class AddPlan(View):
         :return: HttpResponse
         """
         form = AddPlanForm(request.POST)
+
         if form.is_valid():
             plan = form.save(commit=False)
             plan.date = datetime.datetime.now()
             plan.user = request.user
             plan.save()
-            plan.recipes.set(form.cleaned_data['recipes'])
+            plan.recipes.set(form.cleaned_data["recipes"])
 
-            url = reverse('plans')
+            url = reverse("plans")
             return redirect(url)
+
         return render(request, "add_plan.html")
 
 
@@ -224,7 +236,8 @@ class EditPlan(View):
         """
         plan = Plan.objects.get(pk=plan_pk)
         form = EditPlanForm(instance=plan)
-        return render(request, 'edit_plan.html', {'form': form})
+
+        return render(request, "edit_plan.html", {"form": form})
 
     def post(self, request, plan_pk):
         """
@@ -236,12 +249,14 @@ class EditPlan(View):
         """
         plan = Plan.objects.get(pk=plan_pk)
         form = EditPlanForm(request.POST, instance=plan)
+
         if form.is_valid():
             form.save()
             plan.recipes.set(form.cleaned_data['recipes'])
 
-            url = reverse('plan-detail', kwargs={'plan_pk': plan.id})
+            url = reverse("plan-detail", kwargs={"plan_pk": plan.id})
             return redirect(url)
+
         return render(request, "edit_plan.html", {"form": form})
 
 
@@ -258,7 +273,8 @@ class DeletePlan(View):
         plan = Plan.objects.get(pk=plan_pk)
         plan.delete()
 
-        url = reverse('plans')
+        url = reverse("plans")
+
         return redirect(url)
 
 
@@ -309,14 +325,14 @@ class GeneratePDF(View):
 
                 shopping_list.append((product_name, quantity, quantity_categories))
 
-        template = get_template('shopping_list.html')
+        template = get_template("shopping_list.html")
         context = {"shopping_list": shopping_list, "plan": plan}
 
         html_string = template.render(context)
         html = HTML(string=html_string)
 
-        response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = 'filename="lista-zakupow.pdf"'
+        response = HttpResponse(content_type="application/pdf")
+        response["Content-Disposition"] = 'filename= "lista-zakupow.pdf"'
 
         html.write_pdf(response)
         return response
