@@ -210,7 +210,7 @@ class EditPlan(View):
         A method that serves a GET request and shows the form to edit the plan (name, description, recipes)
 
         :param request: HttpRequest
-        :param recipe_pk: recipe primary key
+        :param plan_pk: plan primary key
         :return: HttpResponse
         """
         plan = Plan.objects.get(pk=plan_pk)
@@ -222,7 +222,7 @@ class EditPlan(View):
         A method that serves a POST request. Data transferred to the form: name, description, recipes.
 
         :param request: HttpRequest
-        :param recipe_pk: recipe primary key
+        :param plan_pk: plan primary key
         :return: HttpResponse
         """
         plan = Plan.objects.get(pk=plan_pk)
@@ -240,7 +240,7 @@ class DeletePlan(View):
         """
         A method that serves a GET request and deleting the plan
         :param request: HttpRequest
-        :param recipe_pk: recipe primary key
+        :param plan_pk: plan primary key
         :return: HttpResponse
         """
         plan = Plan.objects.get(pk=plan_pk)
@@ -252,9 +252,9 @@ class GenerateShoppingList(LoginRequiredMixin, View):
     """View generating the shopping list base of plan detail view"""
     def get(self, request, plan_pk):
         """
-
+        A method that serves a GET request and
         :param request: HttpRequest
-        :param recipe_pk: recipe primary key
+        :param plan_pk: plan primary key
         :return: HttpResponse
         """
         plan = Plan.objects.get(pk=plan_pk)
