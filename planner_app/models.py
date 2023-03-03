@@ -77,6 +77,7 @@ class ProductInRecipe(models.Model):
         """
         return f"{self.product} w {self.recipe}"
 
+
 class Plan(models.Model):
     """
     Model representing a plan
