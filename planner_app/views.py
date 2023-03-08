@@ -65,11 +65,12 @@ class RecipesView(LoginRequiredMixin, View):
         """
         if request.user.is_authenticated:
             recipes = Recipe.objects.all()
+
+            return render(request, "recipes_view.html", {"recipes": recipes})
         else:
             url = reverse("accounts/login")
-            return redirect(url)
 
-        return render(request, "recipes_view.html", {"recipes": recipes})
+            return redirect(url)
 
 
 class RecipeDetail(LoginRequiredMixin, View):
@@ -92,6 +93,7 @@ class RecipeDetail(LoginRequiredMixin, View):
 
             return redirect(url)
 
+
 class EditRecipe(LoginRequiredMixin, View):
     """View showing form to edit recipe with a specific primary key"""
     def get(self, request, recipe_pk):
@@ -102,13 +104,17 @@ class EditRecipe(LoginRequiredMixin, View):
         :param recipe_pk: recipe primary_key
         :return: HttpResponse
         """
-        recipe = get_object_or_404(Recipe, id=recipe_pk)
-        form = EditRecipeForm(initial= {"name": recipe.name, "description": recipe.description,
-                                        "preparation": recipe.preparation,
-                                        }
-                              )
+        if request.user.is_authenticated:
+            recipe = get_object_or_404(Recipe, id=recipe_pk)
+            form = EditRecipeForm(initial= {"name": recipe.name, "description": recipe.description,
+                                            "preparation": recipe.preparation,
+                                            }
+                                )
 
-        return render(request, "edit_recipe.html", {"form": form, "recipe": recipe})
+            return render(request, "edit_recipe.html", {"form": form, "recipe": recipe})
+        else:
+            url = reverse("accounts/login")
+            return redirect(url)
 
     def post(self, request, recipe_pk):
         """
@@ -118,24 +124,28 @@ class EditRecipe(LoginRequiredMixin, View):
         :param recipe_pk: recipe primary key
         :return: HttpResponse
         """
-        recipe = get_object_or_404(Recipe, id=recipe_pk)
-        form = EditRecipeForm(request.POST)
+        if request.user.is_authenticated:
+            recipe = get_object_or_404(Recipe, id=recipe_pk)
+            form = EditRecipeForm(request.POST)
 
-        if form.is_valid():
-            name = form.cleaned_data["name"]
-            description = form.cleaned_data["description"]
-            preparation = form.cleaned_data["preparation"]
+            if form.is_valid():
+                name = form.cleaned_data["name"]
+                description = form.cleaned_data["description"]
+                preparation = form.cleaned_data["preparation"]
 
-            recipe.name = name
-            recipe.description = description
-            recipe.preparation = preparation
+                recipe.name = name
+                recipe.description = description
+                recipe.preparation = preparation
 
-            recipe.save()
+                recipe.save()
 
-            url = reverse("edit-products-in-recipe", kwargs={"recipe_pk": recipe.id})
+                url = reverse("edit-products-in-recipe", kwargs={"recipe_pk": recipe.id})
+                return redirect(url)
+
+            return render(request, "edit_recipe.html")
+        else:
+            url = reverse("accounts/login")
             return redirect(url)
-
-        return render(request, "edit_recipe.html")
 
 
 class EditProductsInRecipe(LoginRequiredMixin, View):
@@ -148,11 +158,15 @@ class EditProductsInRecipe(LoginRequiredMixin, View):
         :param recipe_pk: recipe primary key
         :return: HttpResponse
         """
-        recipe = get_object_or_404(Recipe, id=recipe_pk)
-        products = ProductInRecipe.objects.filter(recipe=recipe)
-        formset = ProductInRecipeFormSet(queryset=products)
+        if request.user.is_authenticated:
+            recipe = get_object_or_404(Recipe, id=recipe_pk)
+            products = ProductInRecipe.objects.filter(recipe=recipe)
+            formset = ProductInRecipeFormSet(queryset=products)
 
-        return render(request, "edit_product.html", {"formset": formset, "recipe": recipe})
+            return render(request, "edit_product.html", {"formset": formset, "recipe": recipe})
+        else:
+            url = reverse("accounts/login")
+            return redirect(url)
 
     def post(self, request, recipe_pk):
         """
@@ -162,15 +176,19 @@ class EditProductsInRecipe(LoginRequiredMixin, View):
         :param recipe_pk: recipe primary key
         :return: HttpResponse
         """
-        recipe = get_object_or_404(Recipe, id=recipe_pk)
-        formset = ProductInRecipeFormSet(request.POST)
+        if request.user.is_authenticated:
+            recipe = get_object_or_404(Recipe, id=recipe_pk)
+            formset = ProductInRecipeFormSet(request.POST)
 
-        if formset.is_valid():
-            formset.save()
-            url = reverse("recipe-detail", kwargs={"recipe_pk": recipe.id})
+            if formset.is_valid():
+                formset.save()
+                url = reverse("recipe-detail", kwargs={"recipe_pk": recipe.id})
+                return redirect(url)
+
+            return render(request, "edit_product.html", {"formset": formset, "recipe": recipe})
+        else:
+            url = reverse("accounts/login")
             return redirect(url)
-
-        return render(request, "edit_product.html", {"formset": formset, "recipe": recipe})
 
 
 class PlansView(LoginRequiredMixin, View):
