@@ -73,7 +73,7 @@ class RecipeDetail(View):
         :param recipe_pk: recipe primary key
         :return: HttpResponse
         """
-        recipe = Recipe.objects.get(id=recipe_pk)
+        recipe = get_object_or_404(Recipe, id=recipe_pk)
         products = ProductInRecipe.objects.filter(recipe=recipe)
 
         return render(request, "recipe_details.html", {"recipe": recipe, "products": products})
