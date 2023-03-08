@@ -200,9 +200,13 @@ class PlansView(LoginRequiredMixin, View):
         :param request: HttpRequest
         :return: HttpResponse
         """
-        plans = Plan.objects.all()
+        if request.user.is_authenticated:
+            plans = Plan.objects.all()
 
-        return render(request, "plans_view.html", {"plans": plans})
+            return render(request, "plans_view.html", {"plans": plans})
+        else:
+            url = reverse("accounts/login")
+            return redirect(url)
 
 
 class PlanDetail(LoginRequiredMixin, View):
@@ -215,9 +219,13 @@ class PlanDetail(LoginRequiredMixin, View):
         :param recipe_pk: recipe primary key
         :return: HttpResponse
         """
-        plan = get_object_or_404(Plan, id=plan_pk)
+        if request.user.is_authenticated:
+            plan = get_object_or_404(Plan, id=plan_pk)
 
-        return render(request, "plan_details.html", {"plan": plan})
+            return render(request, "plan_details.html", {"plan": plan})
+        else:
+            url = reverse("accounts/login")
+            return redirect(url)
 
 
 class AddPlan(LoginRequiredMixin, View):
@@ -229,9 +237,10 @@ class AddPlan(LoginRequiredMixin, View):
         :param request: HttpRequest
         :return: HttpResponse
         """
-        form = AddPlanForm()
+        if request.user.is_authenticated:
+            form = AddPlanForm()
 
-        return render(request, "add_plan.html", {"form": form})
+            return render(request, "add_plan.html", {"form": form})
 
     def post(self, request):
         """
@@ -240,19 +249,23 @@ class AddPlan(LoginRequiredMixin, View):
         :param request: HttpRequest
         :return: HttpResponse
         """
-        form = AddPlanForm(request.POST)
+        if request.user.is_authenticated:
+            form = AddPlanForm(request.POST)
 
-        if form.is_valid():
-            plan = form.save(commit=False)
-            plan.date = datetime.datetime.now()
-            plan.user = request.user
-            plan.save()
-            plan.recipes.set(form.cleaned_data["recipes"])
+            if form.is_valid():
+                plan = form.save(commit=False)
+                plan.date = datetime.datetime.now()
+                plan.user = request.user
+                plan.save()
+                plan.recipes.set(form.cleaned_data["recipes"])
 
-            url = reverse("plans")
+                url = reverse("plans")
+                return redirect(url)
+
+            return render(request, "add_plan.html")
+        else:
+            url = reverse("accounts/login")
             return redirect(url)
-
-        return render(request, "add_plan.html")
 
 
 class EditPlan(LoginRequiredMixin, View):
@@ -265,10 +278,14 @@ class EditPlan(LoginRequiredMixin, View):
         :param plan_pk: plan primary key
         :return: HttpResponse
         """
-        plan = get_object_or_404(Plan, pk=plan_pk)
-        form = EditPlanForm(instance=plan)
+        if request.user.is_authenticated:
+            plan = get_object_or_404(Plan, pk=plan_pk)
+            form = EditPlanForm(instance=plan)
 
-        return render(request, "edit_plan.html", {"form": form})
+            return render(request, "edit_plan.html", {"form": form})
+        else:
+            url = reverse("accounts/login")
+            return redirect(url)
 
     def post(self, request, plan_pk):
         """
@@ -278,17 +295,21 @@ class EditPlan(LoginRequiredMixin, View):
         :param plan_pk: plan primary key
         :return: HttpResponse
         """
-        plan = get_object_or_404(Plan, pk=plan_pk)
-        form = EditPlanForm(request.POST, instance=plan)
+        if request.user.is_authenticated:
+            plan = get_object_or_404(Plan, pk=plan_pk)
+            form = EditPlanForm(request.POST, instance=plan)
 
-        if form.is_valid():
-            form.save()
-            plan.recipes.set(form.cleaned_data['recipes'])
+            if form.is_valid():
+                form.save()
+                plan.recipes.set(form.cleaned_data['recipes'])
 
-            url = reverse("plan-detail", kwargs={"plan_pk": plan.id})
+                url = reverse("plan-detail", kwargs={"plan_pk": plan.id})
+                return redirect(url)
+
+            return render(request, "edit_plan.html", {"form": form})
+        else:
+            url = reverse("accounts/login")
             return redirect(url)
-
-        return render(request, "edit_plan.html", {"form": form})
 
 
 class DeletePlan(LoginRequiredMixin, View):
@@ -301,12 +322,15 @@ class DeletePlan(LoginRequiredMixin, View):
         :param plan_pk: plan primary key
         :return: HttpResponse
         """
-        plan = get_object_or_404(Plan, pk=plan_pk)
-        plan.delete()
+        if request.user.is_authenticated:
+            plan = get_object_or_404(Plan, pk=plan_pk)
+            plan.delete()
 
-        url = reverse("plans")
-
-        return redirect(url)
+            url = reverse("plans")
+            return redirect(url)
+        else:
+            url = reverse("accounts/login")
+            return redirect(url)
 
 
 class GenerateShoppingList(LoginRequiredMixin, View):
