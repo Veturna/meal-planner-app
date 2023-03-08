@@ -1,6 +1,6 @@
 import datetime
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.template.loader import get_template
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -89,7 +89,7 @@ class EditRecipe(LoginRequiredMixin, View):
         :param recipe_pk: recipe primary_key
         :return: HttpResponse
         """
-        recipe = Recipe.objects.get(id=recipe_pk)
+        recipe = get_object_or_404(Recipe, id=recipe_pk)
         form = EditRecipeForm(initial= {"name": recipe.name, "description": recipe.description,
                                         "preparation": recipe.preparation,
                                         }
@@ -105,7 +105,7 @@ class EditRecipe(LoginRequiredMixin, View):
         :param recipe_pk: recipe primary key
         :return: HttpResponse
         """
-        recipe = Recipe.objects.get(id=recipe_pk)
+        recipe = get_object_or_404(Recipe, id=recipe_pk)
         form = EditRecipeForm(request.POST)
 
         if form.is_valid():
@@ -135,7 +135,7 @@ class EditProductsInRecipe(LoginRequiredMixin, View):
         :param recipe_pk: recipe primary key
         :return: HttpResponse
         """
-        recipe = Recipe.objects.get(id=recipe_pk)
+        recipe = get_object_or_404(Recipe, id=recipe_pk)
         products = ProductInRecipe.objects.filter(recipe=recipe)
         formset = ProductInRecipeFormSet(queryset=products)
 
@@ -149,7 +149,7 @@ class EditProductsInRecipe(LoginRequiredMixin, View):
         :param recipe_pk: recipe primary key
         :return: HttpResponse
         """
-        recipe = Recipe.objects.get(id=recipe_pk)
+        recipe = get_object_or_404(Recipe, id=recipe_pk)
         formset = ProductInRecipeFormSet(request.POST)
 
         if formset.is_valid():
@@ -184,7 +184,7 @@ class PlanDetail(View):
         :param recipe_pk: recipe primary key
         :return: HttpResponse
         """
-        plan = Plan.objects.get(id=plan_pk)
+        plan = get_object_or_404(Plan, id=plan_pk)
 
         return render(request, "plan_details.html", {"plan": plan})
 
@@ -234,7 +234,7 @@ class EditPlan(View):
         :param plan_pk: plan primary key
         :return: HttpResponse
         """
-        plan = Plan.objects.get(pk=plan_pk)
+        plan = get_object_or_404(Plan, pk=plan_pk)
         form = EditPlanForm(instance=plan)
 
         return render(request, "edit_plan.html", {"form": form})
@@ -247,7 +247,7 @@ class EditPlan(View):
         :param plan_pk: plan primary key
         :return: HttpResponse
         """
-        plan = Plan.objects.get(pk=plan_pk)
+        plan = get_object_or_404(Plan, pk=plan_pk)
         form = EditPlanForm(request.POST, instance=plan)
 
         if form.is_valid():
@@ -270,7 +270,7 @@ class DeletePlan(View):
         :param plan_pk: plan primary key
         :return: HttpResponse
         """
-        plan = Plan.objects.get(pk=plan_pk)
+        plan = get_object_or_404(Plan, pk=plan_pk)
         plan.delete()
 
         url = reverse("plans")
@@ -288,7 +288,7 @@ class GenerateShoppingList(LoginRequiredMixin, View):
         :param plan_pk: plan primary key
         :return: HttpResponse
         """
-        plan = Plan.objects.get(pk=plan_pk)
+        plan = get_object_or_404(Plan, pk=plan_pk)
         shopping_list = []
 
         for recipe in plan.recipes.all():
@@ -313,7 +313,7 @@ class GeneratePDF(View):
         :param plan_pk: plan primary key
         :return: HttpResponse
         """
-        plan = Plan.objects.get(pk=plan_pk)
+        plan = get_object_or_404(Plan, pk=plan_pk)
         shopping_list = []
 
         for recipe in plan.recipes.all():
