@@ -22,7 +22,12 @@ class Profile(LoginRequiredMixin, View):
         :param request: HttpRequest
         :return: HttpResponse
         """
-        return render(request, "profile.html")
+        if request.user.is_authenticated:
+            return render(request, "profile.html")
+        else:
+            url = reverse("accounts/login")
+            return redirect(url)
+
 
 
 class MainPage(View):
@@ -49,7 +54,7 @@ class AboutApp(View):
         return render(request, "about_app.html")
 
 
-class RecipesView(View):
+class RecipesView(LoginRequiredMixin, View):
     """View showing all recipes from db"""
     def get(self, request):
         """
@@ -58,12 +63,16 @@ class RecipesView(View):
         :param request: HttpRequest
         :return: HttpResponse
         """
-        recipes = Recipe.objects.all()
+        if request.user.is_authenticated:
+            recipes = Recipe.objects.all()
+        else:
+            url = reverse("accounts/login")
+            return redirect(url)
 
         return render(request, "recipes_view.html", {"recipes": recipes})
 
 
-class RecipeDetail(View):
+class RecipeDetail(LoginRequiredMixin, View):
     """View showing the details for recipe with a specific primary key"""
     def get(self, request, recipe_pk):
         """
@@ -73,11 +82,15 @@ class RecipeDetail(View):
         :param recipe_pk: recipe primary key
         :return: HttpResponse
         """
-        recipe = get_object_or_404(Recipe, id=recipe_pk)
-        products = ProductInRecipe.objects.filter(recipe=recipe)
+        if request.user.is_authenticated:
+            recipe = get_object_or_404(Recipe, id=recipe_pk)
+            products = ProductInRecipe.objects.filter(recipe=recipe)
 
-        return render(request, "recipe_details.html", {"recipe": recipe, "products": products})
+            return render(request, "recipe_details.html", {"recipe": recipe, "products": products})
+        else:
+            url = reverse("accounts/login")
 
+            return redirect(url)
 
 class EditRecipe(LoginRequiredMixin, View):
     """View showing form to edit recipe with a specific primary key"""
@@ -174,7 +187,7 @@ class PlansView(LoginRequiredMixin, View):
         return render(request, "plans_view.html", {"plans": plans})
 
 
-class PlanDetail(View):
+class PlanDetail(LoginRequiredMixin, View):
     """View showing the details for plan with a specific primary key"""
     def get(self, request, plan_pk):
         """
@@ -189,7 +202,7 @@ class PlanDetail(View):
         return render(request, "plan_details.html", {"plan": plan})
 
 
-class AddPlan(View):
+class AddPlan(LoginRequiredMixin, View):
     """View showing the form to adding the plan to db"""
     def get(self, request):
         """
@@ -224,7 +237,7 @@ class AddPlan(View):
         return render(request, "add_plan.html")
 
 
-class EditPlan(View):
+class EditPlan(LoginRequiredMixin, View):
     """View showing the form to edit the plan with specific primary key"""
     def get(self, request, plan_pk):
         """
@@ -260,7 +273,7 @@ class EditPlan(View):
         return render(request, "edit_plan.html", {"form": form})
 
 
-class DeletePlan(View):
+class DeletePlan(LoginRequiredMixin, View):
     """View deleting the plan with specific primary key from db"""
     def get(self, request, plan_pk):
         """
@@ -303,7 +316,7 @@ class GenerateShoppingList(LoginRequiredMixin, View):
         return render(request, "shopping_list.html", {"shopping_list": shopping_list, "plan": plan})
 
 
-class GeneratePDF(View):
+class GeneratePDF(LoginRequiredMixin, View):
     """View generating the GenerateShoppingList view in PDF"""
     def get(self, request, plan_pk):
         """
